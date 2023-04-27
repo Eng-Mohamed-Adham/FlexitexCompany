@@ -1,0 +1,20 @@
+.carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .carousel__slide {
+    height: 300px;
+    min-width: 100%;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    opacity: 0.5;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .carousel__slide--active {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
