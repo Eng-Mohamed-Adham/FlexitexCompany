@@ -1,36 +1,52 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import useAuth from '../../hooks/useAuth';
+import useAuth from "../../hooks/useAuth";
+
+import * as React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+
+
+const drawerWidth = 240;
+
+
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  })
+);
 
 const Welcome = () => {
+  
 
-    const {username, isManager,isAdmin} = useAuth()
+  const { isManager, isAdmin } = useAuth();
 
-    const date = new Date()
-    const today = new Intl.DateTimeFormat('en-PS', {dateStyle: 'full',timeStyle: 'long'}).format(date)
-    const content = (
-        <section className="welcome">
-            <p>{today}</p>
+  const date = new Date();
 
-            <h1>Welcome!</h1>
+  const today = new Intl.DateTimeFormat("en-PS", {
+    dateStyle: "full",
+    timeStyle: "long",
+  }).format(date);
 
-            <p><Link to="/dash/notes">View techNotes</Link></p>
+  return (
+        <>
+        {today}
+        </>
+      
+      
+  );
+};
 
-            <p><Link to="/dash/notes/new">Add New techNote</Link></p>
-            {
-            (isManager || isAdmin) 
-            && 
-            <p><Link to="/dash/users">View User Settings</Link></p>
-            }
-            {
-            (isManager|| isAdmin) 
-            &&
-            <p><Link to="/dash/users/new">Add New User</Link></p>
-            }
-           
-        </section>
-    )
-    return content
-}
-
-export default Welcome
+export default Welcome;

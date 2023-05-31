@@ -3,17 +3,24 @@ import { notesApiSlice } from '../notes/notesApiSlice'
 import { usersApiSlice } from '../users/usersApiSlice';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { partsApiSlice } from '../parts/partsApiSlice';
+import { clientsApiSlice } from '../clients/clientApiSlice';
 
 const Prefetch = () => {
     useEffect(() => {
+        const clients = store.dispatch(clientsApiSlice.endpoints.getClients.initiate())
         console.log('subscribing')
         const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate())
         const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate())
-
+        const parts = store.dispatch(partsApiSlice.endpoints.getParts.initiate())
+       
+        
         return () => {
             console.log('unsubscribing')
             notes.unsubscribe()
             users.unsubscribe()
+            parts.unsubscribe()
+            clients.unsubscribe()
         }
     }, [])
 

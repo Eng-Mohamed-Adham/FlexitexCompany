@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
         alignItems:'center',
         justifyContent:'center',
         flexDirection:'column',
-        marginLeft:'10px',
+        // marginLeft:'10px',
         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
 
         '@media (max-width:998px)':{
@@ -46,9 +46,9 @@ const classes = useStyles();
 
 
     const content = (
-        <Box sx={{ flexGrow: 1,marginTop:'-70px',marginBottom:'50px',background:'#fff !important' }}>
+        <Box sx={{ flexGrow: 1,marginBottom:'50px',background:'#fff !important', }}>
         <Grid  container spacing={0} columns={12}>
-          <Grid sx={{zIndex:'9 !important'}} item xs={6} sm={3}>
+          <Grid sx={{zIndex:'9 !important',display:'flex',flexDirection:'row',justifyContent:'center',alignContent:'center'}} item xs={6} sm={3}>
             <Box className={classes.box}>
 
             <Typography variant='h6'>

@@ -38,7 +38,7 @@ const Section3 = () => {
             <Typography className={classes.title1} variant='h6'>
                 Our Portfolio
             </Typography>
-            <Typography className={classes.title2} variant='h1'>
+            <Typography className={classes.title2} variant='h2'>
                 Some Of Our Works
             </Typography>
             <Grid item xs={12} sm={6} >

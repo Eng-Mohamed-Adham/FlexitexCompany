@@ -24,6 +24,7 @@ const NewUserForm = () => {
     const [password, setPassword] = useState('')
     const [validPassword, setValidPassword] = useState(false)
     const [roles, setRoles] = useState(["Employee"])
+    const [image,setImage] = useState('')
 
     useEffect(() => {
         setValidUsername(USER_REGEX.test(username))
@@ -53,12 +54,34 @@ const NewUserForm = () => {
         setRoles(values)
     }
 
+
+    // convert image src from buffer to base4
+    function convertToBase64(file){
+        return new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () => {
+            resolve(fileReader.result)
+          };
+          fileReader.onerror = (error) => {
+            reject(error)
+          }
+        })
+      }
+    //   handel image file to upload 
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        // console.log(base64)
+        setImage(base64)
+    }
     const canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
 
     const onSaveUserClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
-            await addNewUser({ username, password, roles })
+            
+            await addNewUser({ username, password, roles,image })
         }
     }
 
@@ -117,6 +140,18 @@ const NewUserForm = () => {
                     value={password}
                     onChange={onPasswordChanged}
                 />
+                <label htmlFor="image" className="form__label" >
+                    Photo:
+                </label>
+                <input 
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept='image/*'
+                    onChange={(e) => handleFileUpload(e)}
+                    required
+                    />
+
 
                 <label className="form__label" htmlFor="roles">
                     ASSIGNED ROLES:</label>

@@ -38,7 +38,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {
                     ...initialUserData,
-                }
+                },
+               
             }),
             invalidatesTags: [
                 { type: 'User', id: "LIST" }

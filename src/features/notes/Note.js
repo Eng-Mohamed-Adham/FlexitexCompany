@@ -4,14 +4,19 @@ import { useNavigate } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
 import { selectNoteById } from './notesApiSlice'
+import { selectClientById } from '../clients/clientApiSlice'
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 
 const Note = ({ noteId }) => {
 
     const note = useSelector(state => selectNoteById(state, noteId))
     const navigate = useNavigate()
+    const client = useSelector(state => selectClientById(state, note.clientId))
+
 
     if (note) {
-            console.log(note.createdAt);
+        console.log(note.createdAt);
         const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
 
         const updated = new Date(note.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
@@ -19,27 +24,52 @@ const Note = ({ noteId }) => {
         const handleEdit = () => navigate(`/dash/notes/${noteId}`)
 
         return (
-            <tr className="table__row">
-                <td className="table__cell note__status">
-                    {note.completed
-                        ? <span className="note__status--completed">Completed</span>
-                        : <span className="note__status--open">Open</span>
-                    }
-                </td>
-                <td className="table__cell note__created">{created}</td>
-                <td className="table__cell note__updated">{updated}</td>
-                <td className="table__cell note__title">{note.title}</td>
-                <td className="table__cell note__username">{note.username}</td>
+            <TableRow>
+                
+                <TableCell
+                    align='right'
+                    >
+                    
+                        {note.completed
+                            ? <span className="note__status--completed">Completed</span>
+                            : <span className="note__status--open">Open</span>
+                        }
+                    
+                </TableCell>
+                <TableCell
+                    align='right'
+                    >{created} </TableCell>
 
-                <td className="table__cell">
-                    <button
+                <TableCell
+                align='right' 
+                >
+                    {updated}</TableCell>
+                <TableCell
+                align='right' 
+                >
+                    {note.title}</TableCell>
+
+                <TableCell
+                align='right' 
+                >
+                    {client.username}
+                    </TableCell>
+                <TableCell
+                align='right' 
+                >
+                    {note.username}</TableCell>
+
+                <TableCell
+                align='right' 
+                >
+                        <button
                         className="icon-button table__button"
                         onClick={handleEdit}
                     >
                         <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
-                </td>
-            </tr>
+                </TableCell>
+            </TableRow>
         )
 
     } else return null

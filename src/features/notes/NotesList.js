@@ -1,9 +1,65 @@
 import { useGetNotesQuery } from "./notesApiSlice"
 import Note from "./Note"
 import useAuth from "../../hooks/useAuth"
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+
+
+const columns = [
+    {
+        width: 120,
+        label: 'Status',
+        dataKey: 'Status',
+        numeric: true,
+
+    },
+    {
+        width: 120,
+        label: 'Created',
+        dataKey: 'Created',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Updated',
+        dataKey: 'Updated',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Title',
+        dataKey: 'Title',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Owner',
+        dataKey: 'Owner',
+        numeric: true,
+    },
+
+    {
+        width: 120,
+        label: 'Manage',
+        dataKey: 'Manage',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Edit',
+        dataKey: 'Edit',
+        numeric: false,
+    },
+];
 
 const NotesList = () => {
-    const {username, isManager,isAdmin} = useAuth()
+    const { username, isManager, isAdmin } = useAuth()
 
     const {
         data: notes,
@@ -26,34 +82,44 @@ const NotesList = () => {
     }
 
     if (isSuccess) {
-        const { ids,entities } = notes
+        const { ids, entities } = notes
         let fillteredIds;
-        if(isManager || isAdmin){
+        if (isManager || isAdmin) {
             fillteredIds = [...ids]
-        }else{
+        } else {
             fillteredIds = ids.filter(noteId => entities[noteId].username === username)
         }
 
-        const tableContent = ids?.length&& ids.map(noteId => <Note key={noteId} noteId={noteId} />)
-            
+        const tableContent = ids?.length && ids.map(noteId => <Note key={noteId} noteId={noteId} />)
+
 
         content = (
-            <table className="table table--notes">
-                <thead className="table__thead">
-                    <tr>
-                        <th scope="col" className="table__th note__status">Username</th>
-                        <th scope="col" className="table__th note__created">Created</th>
-                        <th scope="col" className="table__th note__updated">Updated</th>
-                        <th scope="col" className="table__th note__title">Title</th>
-                        <th scope="col" className="table__th note__username">Owner</th>
-                        <th scope="col" className="table__th note__edit">Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <TableContainer>
+            <Table>
+            <TableHead>
+                <TableRow>
+                    {columns.map((column) => (
+                        <TableCell
+                            key={column.dataKey}
+                            variant="head"
+                            align={column.numeric || false ? 'right' : 'left'}
+                            style={{ width: column.width }}
+                            sx={{
+                                backgroundColor: 'background.paper',
+                            }}
+                        >
+                            {column.label}
+                        </TableCell>
+                    ))}
+                </TableRow>
+                </TableHead>
+                <TableBody>
                     {tableContent}
-                </tbody>
-            </table>
-        )
+                </TableBody>
+            </Table>
+            </TableContainer>
+
+        );
     }
 
     return content

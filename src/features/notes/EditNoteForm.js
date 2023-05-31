@@ -3,6 +3,9 @@ import { useUpdateNoteMutation, useDeleteNoteMutation } from "./notesApiSlice"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { useSelector } from "react-redux"
+import { useDeleteClientMutation } from "../clients/clientApiSlice"
+import { selectClientById } from "../clients/clientApiSlice"
 
 import useAuth from '../../hooks/useAuth';
 const EditNoteForm = ({ note, users }) => {
@@ -21,6 +24,14 @@ const EditNoteForm = ({ note, users }) => {
         isError: isDelError,
         error: delerror
     }] = useDeleteNoteMutation()
+
+    const [deleteClient,{
+        isSuccess:isDelSuccessClient,
+
+    }] = useDeleteClientMutation()
+
+    const client = useSelector(state => selectClientById(state, note.clientId))
+
 
     const navigate = useNavigate()
 
@@ -49,12 +60,25 @@ const EditNoteForm = ({ note, users }) => {
 
     const onSaveNoteClicked = async (e) => {
         if (canSave) {
-            await updateNote({ id: note.id, user: userId, title, text, completed })
+            await updateNote({ id: note.id, user: userId, title, text, completed,clientId:note.clientId })
         }
     }
 
     const onDeleteNoteClicked = async () => {
-        await deleteNote({ id: note.id })
+        if(client){
+                if(client.id === note.clientId){
+                    if(client.orders.length === 0){
+                        await deleteNote({ id: note.id })
+                        await deleteClient({ id: client.id })
+                    }
+                    else{
+                        await deleteNote({ id: note.id })
+
+                    }
+
+                }
+
+        }
     }
 
     const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })

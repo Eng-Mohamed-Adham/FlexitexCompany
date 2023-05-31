@@ -31,6 +31,8 @@ const EditUserForm = ({ user }) => {
     const [validPassword, setValidPassword] = useState(false)
     const [roles, setRoles] = useState(user.roles)
     const [active, setActive] = useState(user.active)
+    const [image,setImage] = useState('')
+
 
     useEffect(() => {
         setValidUsername(USER_REGEX.test(username))
@@ -66,9 +68,9 @@ const EditUserForm = ({ user }) => {
 
     const onSaveUserClicked = async (e) => {
         if (password) {
-            await updateUser({ id: user.id, username, password, roles, active })
+            await updateUser({ id: user.id, username, password, roles, active,image })
         } else {
-            await updateUser({ id: user.id, username, roles, active })
+            await updateUser({ id: user.id, username, roles, active,image })
         }
     }
 
@@ -86,11 +88,32 @@ const EditUserForm = ({ user }) => {
         )
     })
 
+    // convert image src from buffer to base4
+    function convertToBase64(file){
+        return new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () => {
+            resolve(fileReader.result)
+          };
+          fileReader.onerror = (error) => {
+            reject(error)
+          }
+        })
+      }
+    //   handel image file to upload 
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        // console.log(base64)
+        setImage(base64)
+    }
+
     let canSave
     if (password) {
-        canSave = [roles.length, validUsername, validPassword].every(Boolean) && !isLoading
+        canSave = [roles.length, validUsername, validPassword,image].every(Boolean) && !isLoading
     } else {
-        canSave = [roles.length, validUsername].every(Boolean) && !isLoading
+        canSave = [roles.length, validUsername,image].every(Boolean) && !isLoading
     }
 
     const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
@@ -148,6 +171,17 @@ const EditUserForm = ({ user }) => {
                     value={password}
                     onChange={onPasswordChanged}
                 />
+                <label htmlFor="image" className="form__label" >
+                    Photo:
+                </label>
+                <input 
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept='image/*'
+                    onChange={(e) => handleFileUpload(e)}
+                    required
+                    />
 
                 <label className="form__label form__checkbox-container" htmlFor="user-active">
                     ACTIVE:

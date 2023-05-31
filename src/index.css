@@ -25,16 +25,16 @@ code {
   /* COLORS */
   /* --BGCOLOR: #0F172A; */
   --BGCOLOR:#FFF;
-  --BORDER-COLOR: #3f767f;
-  --COLOR: #000;
+  --BORDER-COLOR: #051e34;
+  --COLOR: #d0d5da;
   --ERROR: #E73C37;
   --INACTIVE: lightgray;
-  --LINK-COLOR: #BFB0A0;
-  --LINK-HOVER:#C56C85 ;
+  --LINK-COLOR: #000;
+  --LINK-HOVER:#051e34 ;
   --NOTE-BGCOLOR: hsla(240, 64%, 27%, 0.65);
   --STATUS-COMPLETE: #335C7D;
   --STATUS-OPEN: #E73C37;
-  --TABLE-BGCOLOR: #3f767f;
+  --TABLE-BGCOLOR: #d0d5da;
   --TABLE-COLOR: #000;
 }
 
@@ -64,6 +64,13 @@ code {
   color: var(--COLOR);
   display: grid;
   place-content: center;
+
+}
+.img-icon{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  
 }
 
 .icon-button:hover,
@@ -157,6 +164,9 @@ a:focus-visible {
   content: "➜ "
 }
 
+.link{
+  color:"#000 !important"
+}
 /* || DASH HEADER, CONTAINER & FOOTER */
 
 .dash-header {
