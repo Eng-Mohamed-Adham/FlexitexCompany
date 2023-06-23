@@ -14,8 +14,6 @@ import {
 
 
 import { Link } from '@mui/material'
-import { HigherOrderServices } from './HigherOrderServices' 
-import ServicesItem from './ServicesItem'
 
 
 const useStyles = makeStyles(() => ({
@@ -93,7 +91,6 @@ const items =[
     },
 ]
 
-const ComponentItem = HigherOrderServices(ServicesItem)
 
 const Services = () => {
     
@@ -108,7 +105,6 @@ const content =(
                 We Provide All Exclusive Services For Client's
             </Typography>
             <Grid  container >
-            {/* <ComponentItem item={items[0]} />            */}
             {
                 items.map(item => {
                     return (

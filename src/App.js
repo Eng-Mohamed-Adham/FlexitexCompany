@@ -4,7 +4,6 @@ import Layout from './components/Layout'
 import Login from './features/auth/Login';
 import Public from './components/Public';
 import Welcome from './features/auth/Welcome';
-import UsersList from './features/users/UsersList';
 import NotesList from './features/notes/NotesList';
 import EditUser from './features/users/EditUser';
 import NewUserForm from './features/users/NewUserForm';
@@ -48,10 +47,9 @@ function App() {
       <Route element={<RequireAuth allowedRoles={[ROLES.Manager,ROLES.Admin]} />}>
 
         <Route path='users'>
-          <Route index element={<UsersList />}/>
+          <Route index element={<UsersTable />}/>
           <Route path=':id' element={<EditUser />} />
           <Route path='new' element={<NewUserForm />} />
-          <Route path='usertable' element={<UsersTable />} />
         </Route>
     
         </Route>

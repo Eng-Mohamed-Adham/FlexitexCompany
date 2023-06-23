@@ -113,7 +113,7 @@ const Navbar = () => {
              <Typography variant='h6'>
             <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#3f767f",}} />
             </Typography>
-            TechNote
+            Sowftix Technology
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -174,7 +174,7 @@ const Navbar = () => {
              <Typography variant='h6'>
             <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#3f767f",}} />
             </Typography>
-            TechNote
+            Sowftix Technology
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

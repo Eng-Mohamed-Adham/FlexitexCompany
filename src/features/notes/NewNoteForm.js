@@ -15,7 +15,6 @@ import Box from '@mui/material/Box';
 const NewNoteForm = ({ users, clients }) => {
 
 
-
     const [addNewNote, {
         isLoading,
         isSuccess,
@@ -75,8 +74,6 @@ const NewNoteForm = ({ users, clients }) => {
         if (canSave) {
 
             await addNewNote({ user: userId, title, text, clientId })
-
-            console.log(`${userId}, ${title} ,${text},||| ${clientId},`)
 
         }
     }

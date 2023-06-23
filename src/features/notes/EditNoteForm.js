@@ -6,8 +6,13 @@ import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { useSelector } from "react-redux"
 import { useDeleteClientMutation } from "../clients/clientApiSlice"
 import { selectClientById } from "../clients/clientApiSlice"
-
 import useAuth from '../../hooks/useAuth';
+
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import { Container, CssBaseline, MenuItem } from "@mui/material"
+
+
 const EditNoteForm = ({ note, users }) => {
     const {isManager,isAdmin} = useAuth()
 
@@ -59,6 +64,7 @@ const EditNoteForm = ({ note, users }) => {
     const canSave = [title, text, userId].every(Boolean) && !isLoading
 
     const onSaveNoteClicked = async (e) => {
+        e.preventDefault()
         if (canSave) {
             await updateNote({ id: note.id, user: userId, title, text, completed,clientId:note.clientId })
         }
@@ -84,21 +90,9 @@ const EditNoteForm = ({ note, users }) => {
     const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
     const updated = new Date(note.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
-    const options = users.map(user => {
-        return (
-            <option
-                key={user.id}
-                value={user.id}
+ 
 
-            > {user.username}</option >
-        )
-    })
-
-    const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
-    const validTitleClass = !title ? "form__input--incomplete" : ''
-    const validTextClass = !text ? "form__input--incomplete" : ''
-
-    const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
+   
 
     let deleteButton = null
     if(isManager || isAdmin) {
@@ -115,7 +109,9 @@ const EditNoteForm = ({ note, users }) => {
 
     const content = (
         <>
-            <p className={errClass}>{errContent}</p>
+        <CssBaseline />
+            <Container maxWidth="sm">
+            {/* <p className={errClass}>{errContent}</p> */}
 
             <form className="form" onSubmit={e => e.preventDefault()}>
                 <div className="form__title-row">
@@ -129,13 +125,12 @@ const EditNoteForm = ({ note, users }) => {
                         >
                             <FontAwesomeIcon icon={faSave} />
                         </button>
-                      {deleteButton}
+                    {deleteButton}
                     </div>
                 </div>
                 <label className="form__label" htmlFor="note-title">
                     Title:</label>
-                <input
-                    className={`form__input ${validTitleClass}`}
+                <TextField
                     id="note-title"
                     name="title"
                     type="text"
@@ -146,8 +141,7 @@ const EditNoteForm = ({ note, users }) => {
 
                 <label className="form__label" htmlFor="note-text">
                     Text:</label>
-                <textarea
-                    className={`form__input form__input--text ${validTextClass}`}
+                <TextField
                     id="note-text"
                     name="text"
                     value={text}
@@ -157,7 +151,7 @@ const EditNoteForm = ({ note, users }) => {
                     <div className="form__divider">
                         <label className="form__label form__checkbox-container" htmlFor="note-completed">
                             WORK COMPLETE:
-                            <input
+                            <TextField
                                 className="form__checkbox"
                                 id="note-completed"
                                 name="completed"
@@ -169,15 +163,20 @@ const EditNoteForm = ({ note, users }) => {
 
                         <label className="form__label form__checkbox-container" htmlFor="note-username">
                             ASSIGNED TO:</label>
-                        <select
-                            id="note-username"
-                            name="username"
-                            className="form__select"
-                            value={userId}
-                            onChange={onUserIdChanged}
-                        >
-                            {options}
-                        </select>
+                            <TextField
+                                id="username"
+                                select
+                                label="Select"
+                                sx={{marginBottom:10}}
+                                value={userId}
+                                onChange={onUserIdChanged}
+                            >
+                                {users.map((user) => (
+                                    <MenuItem key={user.id} value={user.id}>
+                                        {user.username}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                     </div>
                     <div className="form__divider">
                         <p className="form__created">Created:<br />{created}</p>
@@ -185,6 +184,7 @@ const EditNoteForm = ({ note, users }) => {
                     </div>
                 </div>
             </form>
+            </Container>
         </>
     )
 

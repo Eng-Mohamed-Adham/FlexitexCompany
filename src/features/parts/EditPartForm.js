@@ -28,7 +28,7 @@ const EditNoteForm = ({ part }) => {
     const [desc, setDesc] = useState(part.desc)
     const [productiondate, setProductionDate] = useState(part.productiondate)
     const [lifespan, setLifeSpan] = useState(part.lifespan)
-    const [count,setCount] = useState(0)
+    const [count,setCount] = useState(part.count)
 
     useEffect(() => {
 
@@ -47,11 +47,14 @@ const EditNoteForm = ({ part }) => {
     const onProductionDateChanged = e => setProductionDate(e.target.value)
     const onLifeSpanChanged = e => setLifeSpan(e.target.value)
     const onCountChanged = e => setCount(e.target.value);
+ 
+
     const canSave = [name, desc, productiondate,lifespan].every(Boolean) && !isLoading
 
+   
     const onSavePartClicked = async (e) => {
         if (canSave) {
-            await updatePart({ id: part.id, name, desc, productiondate, lifespan })
+            await updatePart({ id: part.id, name, desc, productiondate, lifespan,count:part.count, })
         }
     }
 
@@ -62,16 +65,7 @@ const EditNoteForm = ({ part }) => {
     const created = new Date(part.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
     const updated = new Date(part.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
-    // const options = users.map(user => {
-    //     return (
-    //         <option
-    //             key={user.id}
-    //             value={user.id}
-
-    //         > {user.username}</option >
-    //     )
-    // })
-
+    
     const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
     const validNameleClass = !name ? "form__input--incomplete" : ''
     const validDescClass = !desc ? "form__input--incomplete" : ''
@@ -109,7 +103,7 @@ const EditNoteForm = ({ part }) => {
                         >
                             <FontAwesomeIcon icon={faSave} />
                         </button>
-                      {deleteButton}
+                    {deleteButton}
                     </div>
                 </div>
                 <label className="form__label" htmlFor="note-title">
@@ -153,7 +147,7 @@ const EditNoteForm = ({ part }) => {
                     value={lifespan}
                     onChange={onLifeSpanChanged}
                 />
-                 <label className="form__label" htmlFor="note-text">
+                <label className="form__label" htmlFor="note-text">
                     Count:</label>
                 <input
                     type="number"
@@ -163,7 +157,8 @@ const EditNoteForm = ({ part }) => {
                     value={count}
                     onChange={onCountChanged}
                 />
-
+    
+        
                 <div className="form__row">
                     <div className="form__divider">
                         <p className="form__created">Created:<br />{created}</p>

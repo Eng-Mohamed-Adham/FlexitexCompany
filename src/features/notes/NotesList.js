@@ -94,7 +94,17 @@ const NotesList = () => {
 
 
         content = (
-            <TableContainer>
+            <TableContainer 
+            sx={{
+                height:'500px',
+                margin:'20px',
+                marginTop:'100px',
+                borderRadius:'10px',
+                order:{xs:2,md:1}
+
+
+                }}
+                >
             <Table>
             <TableHead>
                 <TableRow>

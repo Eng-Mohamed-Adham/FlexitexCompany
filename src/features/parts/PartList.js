@@ -1,7 +1,60 @@
 import { useGetPartsQuery } from "./partsApiSlice"
 import Part from "./Part"
 import useAuth from "../../hooks/useAuth"
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
+const columns = [
+    {
+        width: 120,
+        label: 'name',
+        dataKey: 'name',
+        numeric: true,
+
+    },
+    {
+        width: 120,
+        label: 'Created',
+        dataKey: 'Created',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Desc',
+        dataKey: 'Desc',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'ProductionDate',
+        dataKey: 'ProductionDate',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'Count',
+        dataKey: 'Count',
+        numeric: true,
+    },
+
+    {
+        width: 120,
+        label: 'Buy',
+        dataKey: 'Buy',
+        numeric: true,
+    },
+    {
+        width: 60,
+        label: 'Edit',
+        dataKey: 'Edit',
+        numeric: false,
+    },
+];
 const PartsList = () => {
     const {username, isManager,isAdmin} = useAuth()
 
@@ -38,24 +91,40 @@ const PartsList = () => {
             
 
         content = (
-            <table className="table table--notes">
-                <thead className="table__thead">
-                    <tr>
-                        <th scope="col" className="table__th note__status">name</th>
-                        <th scope="col" className="table__th note__created">Created</th>
-                        {/* <th scope="col" className="table__th note__updated">Updated</th> */}
-                        <th scope="col" className="table__th note__title">Desc</th>
-                        <th scope="col" className="table__th note__username">ProductionDate</th>
-                        {/* <th scope="col" className="table__th note__edit">LifeSpan</th> */}
-                        <th scope="col" className="table__th note__edit">Count</th>
-                        <th scope="col" className="table__th note__edit">Edit</th>
+               <TableContainer
+               sx={{
+                height:'500px',
+                margin:'20px',
+                marginTop:'100px',
+                borderRadius:'10px',
+                order:{xs:2,md:1}
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {tableContent}
-                </tbody>
-            </table>
+
+                }}
+               >
+               <Table>
+               <TableHead>
+                   <TableRow>
+                       {columns.map((column) => (
+                           <TableCell
+                               key={column.dataKey}
+                               variant="head"
+                               align={column.numeric || false ? 'right' : 'left'}
+                               style={{ width: column.width }}
+                               sx={{
+                                   backgroundColor: 'background.paper',
+                               }}
+                           >
+                               {column.label}
+                           </TableCell>
+                       ))}
+                   </TableRow>
+                   </TableHead>
+                   <TableBody>
+                       {tableContent}
+                   </TableBody>
+               </Table>
+               </TableContainer>
         )
     }
 

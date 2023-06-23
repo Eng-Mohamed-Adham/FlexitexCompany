@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave } from "@fortawesome/free-solid-svg-icons"
 import { ROLES } from "../../config/roles"
 
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { Container, CssBaseline, MenuItem } from "@mui/material"
+import Checkbox from '@mui/material/Checkbox';
+
+
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 
@@ -23,8 +31,8 @@ const NewUserForm = () => {
     const [validUsername, setValidUsername] = useState(false)
     const [password, setPassword] = useState('')
     const [validPassword, setValidPassword] = useState(false)
-    const [roles, setRoles] = useState(["Employee"])
-    const [image,setImage] = useState('')
+    const [roles, setRoles] = useState(["Manager"])
+    const [image, setImage] = useState('')
 
     useEffect(() => {
         setValidUsername(USER_REGEX.test(username))
@@ -56,18 +64,18 @@ const NewUserForm = () => {
 
 
     // convert image src from buffer to base4
-    function convertToBase64(file){
+    function convertToBase64(file) {
         return new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file);
-          fileReader.onload = () => {
-            resolve(fileReader.result)
-          };
-          fileReader.onerror = (error) => {
-            reject(error)
-          }
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            };
+            fileReader.onerror = (error) => {
+                reject(error)
+            }
         })
-      }
+    }
     //   handel image file to upload 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
@@ -80,8 +88,8 @@ const NewUserForm = () => {
     const onSaveUserClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
-            
-            await addNewUser({ username, password, roles,image })
+            console.log(roles)
+            await addNewUser({ username, password, roles, image })
         }
     }
 
@@ -103,59 +111,79 @@ const NewUserForm = () => {
 
     const content = (
         <>
-            <p className={errClass}>{error?.data?.message}</p>
-
-            <form className="form" onSubmit={onSaveUserClicked}>
-                <div className="form__title-row">
-                    <h2>New User</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
+            {/* <p className={errClass}>{error?.data?.message}</p> */}
+            <CssBaseline />
+            <Container maxWidth="sm">
+                <form className="form" onSubmit={onSaveUserClicked}>
+                    <div className="form__title-row">
+                        <h2>New User</h2>
+                        <div className="form__action-buttons">
+                            <button
+                                className="icon-button"
+                                title="Save"
+                                disabled={!canSave}
+                            >
+                                <FontAwesomeIcon icon={faSave} />
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <label className="form__label" htmlFor="username">
-                    Username: <span className="nowrap">[3-20 letters]</span></label>
-                <input
-                    className={`form__input ${validUserClass}`}
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="off"
-                    value={username}
-                    onChange={onUsernameChanged}
-                />
-
-                <label className="form__label" htmlFor="password">
-                    Password: <span className="nowrap">[4-12 chars incl. !@#$%]</span></label>
-                <input
-                    className={`form__input ${validPwdClass}`}
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={onPasswordChanged}
-                />
-                <label htmlFor="image" className="form__label" >
-                    Photo:
-                </label>
-                <input 
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept='image/*'
-                    onChange={(e) => handleFileUpload(e)}
-                    required
-                    />
-
-
-                <label className="form__label" htmlFor="roles">
-                    ASSIGNED ROLES:</label>
-                <select
+                    <Box
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField
+                            id="username"
+                            name="username"
+                            label="UserName"
+                            type="text"
+                            autoComplete="off"
+                            value={username}
+                            onChange={onUsernameChanged}
+                        />
+                        <TextField
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={password}
+                            onChange={onPasswordChanged}
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField
+                            type="file"
+                            id="image"
+                            // label=""
+                            name="image"
+                            accept='image/*'
+                            onChange={(e) => handleFileUpload(e)}
+                            required
+                        />
+                        {/* <TextField
+                            id="username"
+                            select
+                            label="Select"
+                            sx={{ marginBottom: 10 }}
+                            // value={roles[1]}
+                            onChange={onRolesChanged}
+                            multiple
+                        >
+                            {Object.values(ROLES).map((role) => (
+                                <MenuItem key={role} value={role}>
+                                    {role}
+                                </MenuItem>
+                            ))}
+                        </TextField> */}
+                    <select
                     id="roles"
                     name="roles"
                     className={`form__select ${validRolesClass}`}
@@ -163,11 +191,15 @@ const NewUserForm = () => {
                     size="3"
                     value={roles}
                     onChange={onRolesChanged}
-                >
-                    {options}
-                </select>
+                        >
+                        {options}
+                    </select>
+                    </Box>
 
-            </form>
+
+
+                </form>
+            </Container>
         </>
     )
 

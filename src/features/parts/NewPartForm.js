@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom"
 import { useAddNewPartMutation } from "./partsApiSlice"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave } from "@fortawesome/free-solid-svg-icons"
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { Container, CssBaseline } from "@mui/material"
 
 const NewPartForm = () => {
 
@@ -51,99 +55,116 @@ const NewPartForm = () => {
         }
     }
 
-  
+
 
     const errClass = isError ? "errmsg" : "offscreen"
-    const validIdClass = !id ? "form__input--incomplete" : ''
-    const validNameClass = !name ? "form__input--incomplete" : ''
-    const validDescClass = !desc ? "form__input--incomplete" : ''
-    const validProductiondateClass = !productiondate ? "form__input--incomplete" : ''
-    const validLifeSpanClass = !lifespan ? "form__input--incomplete" : ''
+
+
 
     const content = (
         <>
-            <p className={errClass}>{error?.data?.message}</p>
-
-            <form className="form" onSubmit={onSavePartClicked}>
-                <div className="form__title-row">
-                    <h2>New Part</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
+            {/* <p className={errClass}>{error?.data?.message}</p> */}
+            <CssBaseline />
+            <Container maxWidth="sm">
+                <form className="form" onSubmit={onSavePartClicked}>
+                    <div className="form__title-row">
+                        <h2>New Part</h2>
+                        <div className="form__action-buttons">
+                            <button
+                                className="icon-button"
+                                title="Save"
+                                disabled={!canSave}
+                            >
+                                <FontAwesomeIcon icon={faSave} />
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <label className="form__label" htmlFor="title">
-                    Id:</label>
-                <input
-                    className={`form__input ${validIdClass}`}
-                    id="title"
-                    name="title"
-                    type="text"
-                    autoComplete="off"
-                    value={id}
-                    onChange={onIdChanged}
-                />
-                <label className="form__label" htmlFor="title">
-                    Name:</label>
-                <input
-                    className={`form__input ${validNameClass}`}
-                    id="title"
-                    name="title"
-                    type="text"
-                    autoComplete="off"
-                    value={name}
-                    onChange={onNameChanged}
-                />
+                    <Box
+                        sx={{
+                            '& > :not(style)': { m: 1, width: '25ch' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                        >
+            
+                    <TextField
+                        variant="outlined"
+                        label="Id"
+                        id="title"
+                        name="title"
+                        type="text"
+                        autoComplete="off"
+                        value={id}
+                        onChange={onIdChanged}
+                    />
+            
+                    <TextField
+                        variant="outlined"
+                        id="Name"
+                        label="Name"
+                        name="Name"
+                        type="text"
+                        autoComplete="off"
+                        value={name}
+                        onChange={onNameChanged}
+                    />
+                    </Box>
+                
+                        <Box
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                        >
+                    <TextField
+                        variant="outlined"
+                        id="production"
+                        label="production"
 
-                <label className="form__label" htmlFor="text">
-                    Desc:</label>
-                <textarea
-                    className={`form__input form__input--text ${validDescClass}`}
-                    id="text"
-                    name="text"
-                    value={desc}
-                    onChange={onDescChanged}
-                />
+                        name="production"
+                        type="text"
+                        autoComplete="off"
+                        value={productiondate}
+                        onChange={onProductionDateChanged}
+                    />
+                
+                    <TextField
+                        variant="outlined"
+                        id="life-span"
+                        label="LifeSpan"
+                        name="life-span"
+                        type="text"
+                        autoComplete="off"
+                        value={lifespan}
+                        onChange={onLifeSpanChanged}
+                    />
+            
+                    <TextField
+                        variant="outlined"
+                        type="number"
+                        label="Count"
+                        id="count"
+                        name="text"
+                        value={count}
+                        onChange={onCountChanged}
+                    />
 
-                <label className="form__label" htmlFor="title">
-                    productionDate:</label>
-                <input
-                    className={`form__input ${validProductiondateClass}`}
-                    id="title"
-                    name="title"
-                    type="text"
-                    autoComplete="off"
-                    value={productiondate}
-                    onChange={onProductionDateChanged}
-                />
-                <label className="form__label" htmlFor="title">
-                    LifeSpan:</label>
-                <input
-                    className={`form__input ${validLifeSpanClass}`}
-                    id="title"
-                    name="title"
-                    type="text"
-                    autoComplete="off"
-                    value={lifespan}
-                    onChange={onLifeSpanChanged}
-                />
-                <label className="form__label" htmlFor="note-text">
-                    Count:</label>
-                <input
-                    type="number"
-                    className={`form__input form__input--text ${validLifeSpanClass}`}
-                    id="note-text"
-                    name="text"
-                    value={count}
-                    onChange={onCountChanged}
-                />
-
-            </form>
+                    <TextField
+                        variant="standard"
+                        id="desc"
+                        name="desc"
+                        label="Description"
+                        multiline
+                        rows={4}
+                        value={desc}
+                        onChange={onDescChanged}
+                    />
+                    </Box>
+                
+                    
+                </form>
+            </Container>
         </>
     )
 

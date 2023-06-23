@@ -20,19 +20,38 @@ code {
 }
 
 /* || VARIABLES */
+.welcome{
+  background-image: url('./features/auth/dashboardComponents/img77.jpg');
+  background-position: 'center';
+  background-size: 'cover';
+  background-repeat: 'no-repeat';
+  color: #000 !important;
+  display:'flex';
+  flex-direction:'column';
+  justify-content:'center';
+  align-items:'center';
+  align-content: 'center';
+  flex-wrap:'nowrap';
+  width:'90%';
+  margin-top:'30px';
+  margin-bottom:'30px';
+  border-radius:'30px';
+  padding:'30px';
+}
 
 :root {
   /* COLORS */
   /* --BGCOLOR: #0F172A; */
-  --BGCOLOR:#FFF;
+  /* #1e73be */
+  --BGCOLOR:#E5E6E9;
   --BORDER-COLOR: #051e34;
-  --COLOR: #d0d5da;
-  --ERROR: #E73C37;
+  --COLOR: #E5E6E9;
+  --ERROR: #E73C37; 
   --INACTIVE: lightgray;
-  --LINK-COLOR: #000;
-  --LINK-HOVER:#051e34 ;
+  --LINK-COLOR: #fff;
+  --LINK-HOVER:#000 ;
   --NOTE-BGCOLOR: hsla(240, 64%, 27%, 0.65);
-  --STATUS-COMPLETE: #335C7D;
+  --STATUS-COMPLETE: #1e73be;
   --STATUS-OPEN: #E73C37;
   --TABLE-BGCOLOR: #d0d5da;
   --TABLE-COLOR: #000;
@@ -61,9 +80,10 @@ code {
   font-size: 2.5rem;
   background-color: transparent;
   border: none;
-  color: var(--COLOR);
+  color: "#1e72bd !important";
   display: grid;
   place-content: center;
+
 
 }
 .img-icon{

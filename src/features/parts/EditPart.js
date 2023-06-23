@@ -6,7 +6,6 @@ import EditPartForm from './EditPartForm'
 
 const EditPart = () => {
     const { id } = useParams()
-
     const part = useSelector(state => selectPartsById(state, id))
     const users = useSelector(selectAllUsers)
 

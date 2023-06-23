@@ -5,6 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { ROLES } from "../../config/roles"
 
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { Container, CssBaseline, MenuItem } from "@mui/material"
+import Checkbox from '@mui/material/Checkbox';
+
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 
@@ -78,15 +85,7 @@ const EditUserForm = ({ user }) => {
         await deleteUser({ id: user.id })
     }
 
-    const options = Object.values(ROLES).map(role => {
-        return (
-            <option
-                key={role}
-                value={role}
-
-            > {role}</option >
-        )
-    })
+ 
 
     // convert image src from buffer to base4
     function convertToBase64(file){
@@ -126,6 +125,8 @@ const EditUserForm = ({ user }) => {
 
     const content = (
         <>
+        <CssBaseline />
+        <Container maxWidth="sm">
             <p className={errClass}>{errContent}</p>
 
             <form className="form" onSubmit={e => e.preventDefault()}>
@@ -149,55 +150,67 @@ const EditUserForm = ({ user }) => {
                         </button>
                     </div>
                 </div>
-                <label className="form__label" htmlFor="username">
-                    Username: <span className="nowrap">[3-20 letters]</span></label>
-                <input
-                    className={`form__input ${validUserClass}`}
+                <Box
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+                >
+
+              
+                <TextField
                     id="username"
                     name="username"
+                    label="UserName"
                     type="text"
                     autoComplete="off"
                     value={username}
                     onChange={onUsernameChanged}
                 />
 
-                <label className="form__label" htmlFor="password">
-                    Password: <span className="nowrap">[empty = no change]</span> <span className="nowrap">[4-12 chars incl. !@#$%]</span></label>
-                <input
-                    className={`form__input ${validPwdClass}`}
+                <TextField
                     id="password"
                     name="password"
+                    label="password"
                     type="password"
                     value={password}
                     onChange={onPasswordChanged}
                 />
-                <label htmlFor="image" className="form__label" >
-                    Photo:
-                </label>
-                <input 
+            </Box>
+            <Box
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+                >
+                    <TextField 
                     type="file"
                     id="image"
+                    // label="Photo"
                     name="image"
                     accept='image/*'
                     onChange={(e) => handleFileUpload(e)}
                     required
                     />
-
-                <label className="form__label form__checkbox-container" htmlFor="user-active">
-                    ACTIVE:
-                    <input
-                        className="form__checkbox"
-                        id="user-active"
-                        name="user-active"
-                        type="checkbox"
-                        checked={active}
-                        onChange={onActiveChanged}
-                    />
-                </label>
-
-                <label className="form__label" htmlFor="roles">
-                    ASSIGNED ROLES:</label>
-                <select
+                
+                {/* <TextField
+                                id="username"
+                                select
+                                label="Select"
+                                sx={{marginBottom:10}}
+                                value={roles[0]}
+                                onChange={onRolesChanged}
+                                multiple
+                            >
+                                {Object.values(ROLES).map((role) => (
+                                    <MenuItem key={role} value={role}>
+                                        {role}
+                                    </MenuItem>
+                                ))}
+                            </TextField> */}
+                                <select
                     id="roles"
                     name="roles"
                     className={`form__select ${validRolesClass}`}
@@ -205,11 +218,38 @@ const EditUserForm = ({ user }) => {
                     size="3"
                     value={roles}
                     onChange={onRolesChanged}
-                >
-                    {options}
-                </select>
+                        >
+                    {
+                        Object.values(ROLES).map(role => {
+                            return (
+                                <option
+                                    key={role}
+                                    value={role}
+                    
+                                > {role}</option >
+                            )
+                        })
+                    }
+                    </select>
+            </Box>
+            
+            <label 
+                
+                htmlFor="user-active">
+                    ACTIVE:
+                    <Checkbox
+                        id="user-active"
+                        name="user-active"
+                        type="checkbox"
+                        checked={active}
+                        onChange={onActiveChanged}
+                    />
+                </label>
+    
 
+              
             </form>
+            </Container>
         </>
     )
 
