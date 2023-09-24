@@ -24,10 +24,11 @@ import Login from './components/Login';
 function App() {
   return (
     <Routes>
+            <Route path='login' element={<Login />} />
+
       <Route path='/' element={<Layout />}>
         {/* public Routes  */}
       <Route index element={<Public/>} />
-      <Route path='login' element={<Login />} />
 
       {/* Protected Routes  */}
       <Route element={<PersistLogin />}>
