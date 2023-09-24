@@ -79,17 +79,7 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  let button = (page) => {
-    let content;
-   
-        if(page === 'Login'){
-         content = <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login >{page}</Link>
-      }else{
-       content = <Link  className={`${classes.menuButton} `} href='/login >{page}</Link>
-      }
-    return content
 
-}
 
   return (
     <AppBar
@@ -169,8 +159,8 @@ const Navbar = () => {
 
               >
                 
-                {button(page)}
-              </Button>
+             <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >{page}</Link>
+                    </Button>
             ))}
             
           </Box>
@@ -187,8 +177,8 @@ const Navbar = () => {
 
               >
                 
-                {button(page)}
-              </Button>
+ <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >{page}</Link>
+                    </Button>
             ))}
             
           </Box>
