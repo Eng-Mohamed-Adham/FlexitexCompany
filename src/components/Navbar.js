@@ -147,27 +147,18 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             
 
-            {pages.map((page) => (
               <Button
-                key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ 
-                  my: 2,
-                  display: 'block',
-                  color:'#1e72bd !important',
-                  }}
+             
 
               >
                 
-             <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >{page}</Link>
+             <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >Login</Link>
                     </Button>
-            ))}
             
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },margin:'auto' }}>
-            {pages.map((page) => (
               <Button
-                key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ 
                   my: 2,
@@ -177,9 +168,8 @@ const Navbar = () => {
 
               >
                 
- <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >{page}</Link>
+ <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >Login</Link>
                     </Button>
-            ))}
             
           </Box>
 
