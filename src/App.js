@@ -1,7 +1,7 @@
 import {Routes,Route} from 'react-router-dom'
 import DashLayout from './components/DashLayout';
 import Layout from './components/Layout'
-import Login from './features/auth/Login';
+// import Login from './features/auth/Login';
 import Public from './components/Public';
 import Welcome from './features/auth/Welcome';
 import NotesList from './features/notes/NotesList';
@@ -20,6 +20,7 @@ import UsersTable from './features/users/UsersTable';
 import ClientsList from './features/clients/ClientsList';
 import EditClient from './features/clients/EditClient';
 import NewClientForm from './features/clients/NewClientForm';
+import Login from './components/Login';
 function App() {
   return (
     <Routes>
