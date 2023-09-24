@@ -6,6 +6,7 @@ import { setCredentials } from './authSlice'
 import { useLoginMutation } from './authApiSlice'
 
 import usePersist from '../../hooks/usePersist'
+import { Typography,Box, TextField, Button } from '@mui/material';
 
 const Login = () => {
     const userRef = useRef()
@@ -60,17 +61,61 @@ const Login = () => {
     if (isLoading) return <p>Loading...</p>
 
     const content = (
-        <section className="public">
-            <header>
-                <h1>Employee Login</h1>
-            </header>
-            <main className="login">
+        <Box
+        sx={{
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'center',
+            alignItems:'center',
+            width:'fit-content',
+            background:'#1e73be',
+            // transform:"translate(50%,50%)"
+            margin:'auto',
+            borderRadius:'20px',
+            color:'#fff'
+        }}
+        >
+                 <Typography
+                 sx={{
+                    margin:'20px',
+                    display:'flex',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    background:'#1e73be',
+
+                 }} variant="h3" gutterBottom>
+                     Login
+                </Typography>
+                <Box
+                sx={{
+                    display:'flex',
+                    flexDirection:'column',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    margin:'auto',
+                    padding:'20px',
+                    gap:'20px',
+
+                }}
+                >
                 <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
 
-                <form className="form" onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        className="form__input"
+                <form
+                    style={{
+                    display:'grid',
+                    // flexDirection:'row',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    margin:'auto',
+                    padding:'20px',
+                    gap:'20px',
+                    gridTemplateColumns:'auto auto'
+                    }}
+
+                    onSubmit={handleSubmit}
+                >
+                    <TextField
+                        label='Username'
                         type="text"
                         id="username"
                         ref={userRef}
@@ -78,24 +123,39 @@ const Login = () => {
                         onChange={handleUserInput}
                         autoComplete="off"
                         required
+                        sx={{
+                            background:'#fff',
+                        }}
                     />
 
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        className="form__input"
+                    <TextField
+                        label='Password'
                         type="password"
                         id="password"
                         onChange={handlePwdInput}
                         value={password}
                         required
+                        sx={{
+                            background:'#fff',
+                        }}
                     />
-                    <button className="form__submit-button">Sign In</button>
+                    <button
+                    style={{
+                        color:'#1e73be',
+                        background:'#fff',
+                        padding:'15px',
+                        borderRadius:'15px',
+                        "&:hover":{
+                            color:'#1e73be',
+                            background:'#fff',
+                        }
+                    }} 
+                        >Sign In</button>
 
 
-                    <label htmlFor="persist" className="form__persist">
-                        <input
+                    <label htmlFor="persist" >
+                        <TextField
                             type="checkbox"
-                            className="form__checkbox"
                             id="persist"
                             onChange={handleToggle}
                             checked={persist}
@@ -103,11 +163,11 @@ const Login = () => {
                         Trust This Device
                     </label>
                 </form>
-            </main>
+            </Box>
             <footer>
                 <Link to="/">Back to Home</Link>
             </footer>
-        </section>
+        </Box>
     )
 
     return content

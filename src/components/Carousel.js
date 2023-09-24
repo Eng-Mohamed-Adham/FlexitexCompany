@@ -1,108 +1,94 @@
+import React, { useRef, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import "./Carousel.css";
+import { Button } from '@mui/material';
 
+const Slider = () => {
+  const slideRef = useRef(null);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Slider from "react-slick";
-import img1 from './imgs/carousel-img1.webp'
-import { makeStyles } from '@material-ui/core/styles';
-import img2 from './imgs/carousel-img2.jpg'
-import img3 from './imgs/carousel-img1.avif' 
-import img4 from './imgs/carousel-img4.avif'
-import img5 from './imgs/carousel-img5.jpg'
-import img6 from './imgs/carousel-img6.jpg'
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import './Carousel.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHeart} from '@fortawesome/free-solid-svg-icons'
+  const handleClickNext = () => {
+    let items = slideRef.current.querySelectorAll(".item");
+    slideRef.current.appendChild(items[0]);
+  };
 
-const useStyles = makeStyles((theme) => ({
-    main:{
-        position:'relative'
+  const handleClickPrev = () => {
+    let items = slideRef.current.querySelectorAll(".item");
+    slideRef.current.prepend(items[items.length - 1]);
+  };
+
+  const data = [
+    {
+      id: 1,
+      imgUrl: "./cro1.jpg",
+      desc: "More than 20 years in the field of electronic device maintenance.",
+      name: "Our experiences",
     },
-    img: {
-        width:'inherit',
-        height:'450px',
-        borderRadius:'10px',
-        zIndex:1
+    {
+      id: 2,
+      imgUrl:
+        "./cro2.jpg",
+      desc: "A specialized, highly experienced maintenance team.",
+      name: "What distinguishes us?",
     },
-    slide: {
-        width:'90% !important',
-        margin:'20px',
-
+    {
+      id: 3,
+      imgUrl:
+        "./cro3.jpg",
+      desc: "Ability to maintain various types of devices.",
+      name: "Our capabilities",
     },
-    frame:{
-        background:'#fff',
-        opacity:'100%',
-        border:'3px solid #000',
-        width:'350px',
-        position:'absolute',
-        height:'470px',
-        left:'37.5%',
-        top:'10px',
-        borderRadius:'10px',
-        zIndex:2
-
+    {
+      id: 4,
+      imgUrl: "./cro3.avif",
+      desc: "Free general inspection of electronic devices.",
+      name: "Our free services",
     },
-    avatar:{
-        display:'flex !important',
+    {
+      id: 5,
+      imgUrl:
+        "./cro4.jpg",
+      desc: "It owns stores for electronic parts of various types.",
+      name: "Our products",
+    },
+  ];
 
-    }
-}));
-
-const Carousel = () => {
-    const classes = useStyles();
-
-    const settings = {
-        dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000
-      };
-    return (
-        <div className={`${classes.main} carousel-wrapper`}>
-            <div className={classes.frame}>
-            <Stack className={classes.avatar} direction="row" spacing={1}>
-                <Chip avatar={<Avatar alt="Ahmed" src={img4}/>} label="Suggestion this company for your works" />
-                <Chip
-                    avatar={<Avatar alt="Natacha" src={img3} />}
-                    label="Great attention given by this company"
-                />
-            </Stack>
-
-            <FontAwesomeIcon label='go' icon={faHeart} beat size="2xl" style={{color: "#3f767f",}} />
-
+  
+  return (
+    <div className="container">
+      <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
+      <div id="slide" 
+      ref={slideRef}
+      >
+        {data.map((item) => (
+          <div
+            key={item.id}
+            className="item"
+            style={{ backgroundImage: `url(${item.imgUrl})`,borderRadius:'20px' }}
+          >
+            <div className="content">
+              <div className="name">{item.name}</div>
+              <div className="des">{item.desc}</div>
+              <Button
+              variant="contained"
+              >
+                See more
+                </Button>
             </div>
-            
-        <Slider {...settings}>
-            <div className={`${classes.slide} carousel-slide`}>
-              <img className={classes.img} src={img1} alt="." />
-            </div>
-            <div className={`${classes.slide} carousel-slide`}>
-            <img className={classes.img} src={img2} alt="." />
-            </div>
-            <div className={`${classes.slide} carousel-slide`}>
-            <img className={classes.img} src={img3} alt="." />
-            </div>
-            <div className={`${classes.slide} carousel-slide`}>
-            <img className={classes.img} src={img4} alt="." />
-            </div>
-            <div className={`${classes.slide} carousel-slide`}>
-            <img className={classes.img} src={img5} alt="." />
-            </div>
-            <div className={`${classes.slide} carousel-slide`}>
-            <img className={classes.img} src={img6} alt="." />
-            </div>
-          </Slider>
-        </div>
-      );
-}
+          </div>
+        ))}
+      </div>
+      <div className="buttons">
+        <button id="prev" onClick={handleClickPrev}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </button>
+        <button id="next" onClick={handleClickNext}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </button>
+      </div>
+    </div>
+  );
+};
 
-export default Carousel
-
-
+export default Slider;

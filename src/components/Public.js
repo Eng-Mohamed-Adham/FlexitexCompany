@@ -4,14 +4,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Navbar from './Navbar';
-import Header from './Header';
-import AboutUs from './AboutUs';
-import Section1 from './Section1';
-import Section2 from './Section2';
-import Section3 from './Section3';
-import Reviews from './Reviews';
-import Footer from './Footer';
-import Services from './Services';
+
+import Slider from './Carousel';
 
 
 
@@ -20,6 +14,10 @@ import Services from './Services';
 const useStyles = makeStyles((theme) => ({
     root: {
     flexGrow: 1,
+    margin:0,
+    padding:0,
+    // background:'#fff',
+    height:'100vh',
 
 
 
@@ -55,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
         height:'801px',
         marginTop:'50px',
 
+    },
+    background:{
+    
     }
   }));
 
@@ -68,16 +69,18 @@ const Public = () => {
     <div className={classes.root}>
 
         <Grid container spacing={0}  >
-        <Navbar />
         </Grid>
-        <Section1 />
-        <Section2 />
-        <Header />
-        <AboutUs />
-        <Services />
-        <Section3 />
-        <Reviews />
-        <Footer />
+        <Grid
+        className={classes.background}
+        >
+        <Navbar />
+
+        <Slider />
+        </Grid>
+        
+
+        
+      
 
 
         </div>

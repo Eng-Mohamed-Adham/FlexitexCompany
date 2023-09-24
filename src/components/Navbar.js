@@ -20,10 +20,11 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => ({
       
       menuButton: {
-          color:'#3f767f !important',
+          color:'#1e72bd !important',
           underline:'none' | 'hover',
           padding:'10px',
           textDecoration:'none !important ',
+          
 
 
           '&:hover': {
@@ -31,21 +32,21 @@ const useStyles = makeStyles(() => ({
               textDecoration:'none',
               textUnderLineOffset:'unset',
               color:'#fff !important',
-              background:'#3f767f',
+              background:'#1e72bd',
               borderRadius:'6px',
               
           }
       },
       loginbtn : {
-          background:"#3f767f",
+          background:"#1e72bd",
           color:'#fff !important' ,
           padding:'10px',
           borderRadius:'6px',
           '&:hover': {
               textDecoration:'none',
-              color:'#3f767f !important',
+              color:'#1e72bd !important',
               background:'#fff',
-              border:'1px solid #3f767f',
+              border:'1px solid #1e72bd',
           
               
           }
@@ -55,7 +56,7 @@ const useStyles = makeStyles(() => ({
 
 
 }));
-const pages = ['Company', 'Services', 'AboutUs','Login'];
+const pages = ['Login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -91,7 +92,17 @@ const Navbar = () => {
 }
 
   return (
-    <AppBar position="static" sx={{background:'#fff !important',color:'#3f767f !importnat'}}>
+    <AppBar
+  
+    position="static" 
+    sx={{background:'#fff !important',color:'#1e72bd !importnat',
+    display:'grid',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    justifyItems: 'center',
+    gridTemplateColumns: 'auto auto',
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
         
@@ -105,54 +116,18 @@ const Navbar = () => {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#3f767f !important',
+              // letterSpacing: '.3rem',
+              color: '#1e72bd !important',
               textDecoration: 'none',
             }}
           >
              <Typography variant='h6'>
-            <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#3f767f",}} />
+            <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#1e72bd",}} />
             </Typography>
-            Sowftix Technology
+            Golden Tech Associates
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="#3f767f !important"
-            >
-              <FontAwesomeIcon icon={faBars} size="2xl" style={{color: "#3f767f",}} />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu} sx={{color:'#3f767f !important'}}>
-                  {button(page)}
-
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          
          
          
           <Typography
@@ -166,17 +141,22 @@ const Navbar = () => {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#3f767f !important',
+              // letterSpacing: '.3rem',
+              color: '#1e72bd !important',
               textDecoration: 'none',
+              fontSize:'18px'
             }}
           >
-             <Typography variant='h6'>
-            <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#3f767f",}} />
+          <Typography variant='h6'>
+          <FontAwesomeIcon icon={faGear} size="xl" style={{color: "#1e72bd",}} />
+          Golden Tech 
+
             </Typography>
-            Sowftix Technology
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            
+
             {pages.map((page) => (
               <Button
                 key={page}
@@ -184,7 +164,25 @@ const Navbar = () => {
                 sx={{ 
                   my: 2,
                   display: 'block',
-                  color:'#3f767f !important',
+                  color:'#1e72bd !important',
+                  }}
+
+              >
+                
+                {button(page)}
+              </Button>
+            ))}
+            
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },margin:'auto' }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ 
+                  my: 2,
+                  display: 'block',
+                  color:'#1e72bd !important',
                   }}
 
               >
@@ -195,35 +193,7 @@ const Navbar = () => {
             
           </Box>
 
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
+       
         </Toolbar>
       </Container>
     </AppBar>

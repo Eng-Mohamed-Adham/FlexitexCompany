@@ -1,16 +1,4 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
 * {
@@ -43,9 +31,9 @@ code {
   /* COLORS */
   /* --BGCOLOR: #0F172A; */
   /* #1e73be */
-  --BGCOLOR:#E5E6E9;
+  --BGCOLOR:#fff;
   --BORDER-COLOR: #051e34;
-  --COLOR: #E5E6E9;
+  --COLOR: #fff;
   --ERROR: #E73C37; 
   --INACTIVE: lightgray;
   --LINK-COLOR: #fff;
@@ -53,7 +41,7 @@ code {
   --NOTE-BGCOLOR: hsla(240, 64%, 27%, 0.65);
   --STATUS-COMPLETE: #1e73be;
   --STATUS-OPEN: #E73C37;
-  --TABLE-BGCOLOR: #d0d5da;
+  --TABLE-BGCOLOR: #fff;
   --TABLE-COLOR: #000;
 }
 
@@ -426,3 +414,4 @@ tr {
     position: static;
   }
 }
+
