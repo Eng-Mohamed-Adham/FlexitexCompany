@@ -56,28 +56,11 @@ const useStyles = makeStyles(() => ({
 
 
 }));
-const pages = ['Login'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const classes = useStyles();
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
 
 
@@ -148,18 +131,14 @@ const Navbar = () => {
             
 
               <Button
-                onClick={handleCloseNavMenu}
-             
-
               >
                 
              <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login' >Login</Link>
-                    </Button>
+            </Button>
             
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },margin:'auto' }}>
               <Button
-                onClick={handleCloseNavMenu}
                 sx={{ 
                   my: 2,
                   display: 'block',
