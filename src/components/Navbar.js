@@ -83,9 +83,9 @@ const Navbar = () => {
     let content;
    
         if(page === 'Login'){
-         content = <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href={`/${page}`} >{page}</Link>
+         content = <Link  className={`${classes.menuButton} ${classes.loginbtn} `} href='/login >{page}</Link>
       }else{
-       content = <Link  className={`${classes.menuButton} `} href={`/${page}`} >{page}</Link>
+       content = <Link  className={`${classes.menuButton} `} href='/login >{page}</Link>
       }
     return content
 
