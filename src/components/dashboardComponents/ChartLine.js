@@ -9,7 +9,7 @@ import {
     Legend,
   } from "chart.js";
   import { Line } from "react-chartjs-2";
-  import useData from '../../../hooks/useData';
+  import useData from '../../hooks/useData';
 import { Box } from "@mui/material";
 
   ChartJS.register(

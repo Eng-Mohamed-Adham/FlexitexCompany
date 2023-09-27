@@ -9,7 +9,7 @@ import {
     Typography
 } from '@mui/material';
 import { useState } from 'react';
-import useData from '../../../hooks/useData';
+import useData from '../../hooks/useData';
 
 const  SearchInput= () => {
 

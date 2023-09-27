@@ -29,8 +29,8 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="https://goldentech.onrender.com/">
+                Golden Tech Associates
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -159,13 +159,13 @@ const Login = () => {
 
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
+                                <Link href="https://goldentech.onrender.com/" variant="body2">
+                                    Go To Home Page
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {"Contact at +970599086824"}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -1,9 +1,7 @@
 import {Routes,Route} from 'react-router-dom'
 import DashLayout from './components/DashLayout';
 import Layout from './components/Layout'
-// import Login from './features/auth/Login';
-import Public from './components/Public';
-import Welcome from './features/auth/Welcome';
+import Welcome from './components/dashboardComponents/Welcome';
 import NotesList from './features/notes/NotesList';
 import EditUser from './features/users/EditUser';
 import NewUserForm from './features/users/NewUserForm';
