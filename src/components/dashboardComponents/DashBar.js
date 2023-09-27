@@ -19,9 +19,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import useAuth from '../../hooks/useAuth';
-
+import {useSendLogoutMutation} from '../../features/auth/authApiSlice'
 import { Outlet } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons"
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -78,8 +81,30 @@ export default function DashBar() {
     setOpen(!open);
   };
   const {isManager, isAdmin} = useAuth()
-  
-  return (
+  const [sendLogout, {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+}] = useSendLogoutMutation()
+
+  const logoutButton = (
+    <ListItemButton
+        title="Logout"
+        onClick={sendLogout}
+    >
+      <ListItemIcon>
+
+        <FontAwesomeIcon icon={faRightFromBracket}  color='#1e72bd'/>
+        </ListItemIcon>
+        <ListItemText primary="LogOut" sx={{color:'#1e72bd'}} />
+
+    </ListItemButton>
+
+
+)
+
+  let content = (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -129,17 +154,19 @@ export default function DashBar() {
           <Divider />
           <List component="nav">
             {mainListItems}
+            {logoutButton}
             <Divider sx={{ my: 1 }} />
-            {
-              (isManager || isAdmin) &&(
-                {secondaryListItems}
+            
+            { (isManager || isAdmin) && secondaryListItems}
 
-              )
-            }
+
+              
+            
           </List>
         </Drawer>
         <Outlet />
       </Box>
     </ThemeProvider>
-  );
+  )
+  return content
 }

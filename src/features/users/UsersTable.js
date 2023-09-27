@@ -39,6 +39,13 @@ export default function UsersTable() {
     if (isError) {
         content = <p className="errmsg">{error?.data?.message}</p>;
     }
+    const style = {
+        Container: {
+            width: '45px',
+            height: '45px',
+            borderRadius: '50%',
+        }
+    }
 
     if (isSuccess) {
         if (users) {
@@ -87,7 +94,7 @@ export default function UsersTable() {
                                 >
                                     <TableCell align="right">
                                         <img
-                                            className="img-icon"
+                                            style={style.Container}
                                             src={row.image}
                                             alt={row.username}
                                         />

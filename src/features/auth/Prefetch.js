@@ -9,14 +9,12 @@ import { clientsApiSlice } from '../clients/clientApiSlice';
 const Prefetch = () => {
     useEffect(() => {
         const clients = store.dispatch(clientsApiSlice.endpoints.getClients.initiate())
-        console.log('subscribing')
         const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate())
         const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate())
         const parts = store.dispatch(partsApiSlice.endpoints.getParts.initiate())
        
         
         return () => {
-            console.log('unsubscribing')
             notes.unsubscribe()
             users.unsubscribe()
             parts.unsubscribe()
