@@ -1,12 +1,44 @@
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../features/auth/authSlice'
 import { useLoginMutation } from '../features/auth/authApiSlice'
 
 import usePersist from '../hooks/usePersist'
-import { Typography,Box, TextField, Button } from '@mui/material';
+
+
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                Your Website
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const defaultTheme = createTheme();
 
 const Login = () => {
     const userRef = useRef()
@@ -61,113 +93,88 @@ const Login = () => {
     if (isLoading) return <p>Loading...</p>
 
     const content = (
-        <Box
-        sx={{
-            display:'flex',
-            flexDirection:'column',
-            justifyContent:'center',
-            alignItems:'center',
-            width:'fit-content',
-            background:'#1e73be',
-            // transform:"translate(50%,50%)"
-            margin:'auto',
-            borderRadius:'20px',
-            color:'#fff'
-        }}
-        >
-                 <Typography
-                 sx={{
-                    margin:'20px',
-                    display:'flex',
-                    justifyContent:'center',
-                    alignItems:'center',
-                    background:'#1e73be',
-
-                 }} variant="h3" gutterBottom>
-                     Login
-                </Typography>
+        <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
                 <Box
-                sx={{
-                    display:'flex',
-                    flexDirection:'column',
-                    justifyContent:'center',
-                    alignItems:'center',
-                    margin:'auto',
-                    padding:'20px',
-                    gap:'20px',
-
-                }}
-                >
-                <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-
-                <form
-                    style={{
-                    display:'grid',
-                    // flexDirection:'row',
-                    justifyContent:'center',
-                    alignItems:'center',
-                    margin:'auto',
-                    padding:'20px',
-                    gap:'20px',
-                    gridTemplateColumns:'auto auto'
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
                     }}
-
-                    onSubmit={handleSubmit}
                 >
-                    <TextField
-                        label='Username'
-                        type="text"
-                        id="username"
-                        ref={userRef}
-                        value={username}
-                        onChange={handleUserInput}
-                        autoComplete="off"
-                        required
-                        sx={{
-                            background:'#fff',
-                        }}
-                    />
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 
-                    <TextField
-                        label='Password'
-                        type="password"
-                        id="password"
-                        onChange={handlePwdInput}
-                        value={password}
-                        required
-                        sx={{
-                            background:'#fff',
-                        }}
-                    />
-                    <button
-                    style={{
-                        color:'#1e73be',
-                        background:'#fff',
-                        padding:'15px',
-                        borderRadius:'15px',
-                        "&:hover":{
-                            color:'#1e73be',
-                            background:'#fff',
-                        }
-                    }} 
-                        >Sign In</button>
-
-
-                    <label htmlFor="persist" >
                         <TextField
-                            type="checkbox"
-                            id="persist"
-                            onChange={handleToggle}
-                            checked={persist}
+                            type="text"
+                            ref={userRef}
+                            value={username}
+                            onChange={handleUserInput}
+                            required
+                            autoFocus
+                            margin="normal"
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="Username"
+                            autoComplete="username"
+
                         />
-                        Trust This Device
-                    </label>
-                </form>
-            </Box>
-            <footer>
-                <Link to="/">Back to Home</Link>
-            </footer>
-        </Box>
+
+                        <TextField
+                            onChange={handlePwdInput}
+                            value={password}
+                            required
+                            margin="normal"
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" onChange={handleToggle} checked={persist}
+                            />}
+                            label="Trust This Device"
+                        />
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Sign In
+                        </Button>
+
+
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Box>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </ThemeProvider>
+
     )
 
     return content

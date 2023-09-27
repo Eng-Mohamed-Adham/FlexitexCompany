@@ -3,11 +3,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Navbar from './Navbar';
+import Navbar from './HomePage';
 
 import Slider from './Carousel';
 
-
+import HomePage from './HomePage'
 
 
 
@@ -66,9 +66,11 @@ const Public = () => {
 
     const content = (
 
-    <div className={classes.root}>
+    <div 
+    // className={classes.root}
+    >
 
-        <Grid container spacing={0}  >
+        {/* <Grid container spacing={0}  >
         </Grid>
         <Grid
         className={classes.background}
@@ -76,10 +78,10 @@ const Public = () => {
         <Navbar />
 
         <Slider />
-        </Grid>
+        </Grid> */}
         
 
-        
+        <HomePage />
       
 
 

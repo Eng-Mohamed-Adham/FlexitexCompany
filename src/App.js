@@ -21,6 +21,7 @@ import ClientsList from './features/clients/ClientsList';
 import EditClient from './features/clients/EditClient';
 import NewClientForm from './features/clients/NewClientForm';
 import Login from './components/Login';
+import HomePage from './components/HomePage';
 function App() {
   return (
     <Routes>
@@ -28,7 +29,7 @@ function App() {
 
       <Route path='/' element={<Layout />}>
         {/* public Routes  */}
-      <Route index element={<Public/>} />
+      <Route index element={<HomePage/>} />
 
       {/* Protected Routes  */}
       <Route element={<PersistLogin />}>
