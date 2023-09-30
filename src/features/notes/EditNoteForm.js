@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useUpdateNoteMutation, useDeleteNoteMutation } from "./notesApiSlice"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { faSave, faTrashCan,faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import { useSelector } from "react-redux"
 import { useDeleteClientMutation } from "../clients/clientApiSlice"
 import { selectClientById } from "../clients/clientApiSlice"
@@ -10,7 +10,8 @@ import useAuth from '../../hooks/useAuth';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { Container, CssBaseline, MenuItem } from "@mui/material"
+import { Button, Checkbox, Container, CssBaseline, FormControlLabel, MenuItem, Typography } from "@mui/material"
+
 
 
 const EditNoteForm = ({ note, users }) => {
@@ -97,79 +98,77 @@ const EditNoteForm = ({ note, users }) => {
     let deleteButton = null
     if(isManager || isAdmin) {
         deleteButton = (
-            <button
-            className="icon-button"
-            title="Delete"
-            onClick={onDeleteNoteClicked} >
+            <Button
+            component="button"
+            variant="contained"
+            label="Delete"
+            onClick={onDeleteNoteClicked}
+            sx={{
+                width:'40%',
+                margin:'10px',
+                padding:'20px'
+            }}
+             >
                 <FontAwesomeIcon icon={faTrashCan} />
-            </button>
+            </Button>
         )
     }
 
 
     const content = (
         <>
-        <CssBaseline />
-            <Container maxWidth="sm">
-            {/* <p className={errClass}>{errContent}</p> */}
+            <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+            sx={{
+                marginTop:8,
+                display:'flex',
+                flexDirection:'column',
+                alignItems:'center'
+            }}
+            >
 
-            <form className="form" onSubmit={e => e.preventDefault()}>
-                <div className="form__title-row">
-                    <h2>Edit Note #{note.ticket}</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            onClick={onSaveNoteClicked}
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
-                    {deleteButton}
-                    </div>
-                </div>
-                <label className="form__label" htmlFor="note-title">
-                    Title:</label>
+            <Box component='form'  onSubmit={e => e.preventDefault()}>
+                <Typography variant="h3" marginTop='20px'>
+
+                <FontAwesomeIcon icon={faPenToSquare} style={{color: "#1e72bd",}} /> Order
+                </Typography>
+
+
+               
                 <TextField
+                    margin="normal"
                     id="note-title"
                     name="title"
                     type="text"
+                    label="Title"
                     autoComplete="off"
                     value={title}
                     onChange={onTitleChanged}
+                    sx={{
+                        width:'50%'
+                    }}
                 />
 
-                <label className="form__label" htmlFor="note-text">
-                    Text:</label>
                 <TextField
+                    margin="normal"
                     id="note-text"
                     name="text"
                     value={text}
                     onChange={onTextChanged}
+                    label="Text"
+                    sx={{
+                        width:'50%'
+                    }}
                 />
-                <div className="form__row">
-                    <div className="form__divider">
-                        <label className="form__label form__checkbox-container" htmlFor="note-completed">
-                            WORK COMPLETE:
-                            <TextField
-                                className="form__checkbox"
-                                id="note-completed"
-                                name="completed"
-                                type="checkbox"
-                                checked={completed}
-                                onChange={onCompletedChanged}
-                            />
-                        </label>
-
-                        <label className="form__label form__checkbox-container" htmlFor="note-username">
-                            ASSIGNED TO:</label>
-                            <TextField
+                  <TextField
                                 id="username"
                                 select
-                                label="Select"
-                                sx={{marginBottom:10}}
+                                label="Assined To:"
+                                sx={{marginBottom:10,width:'50%'}}
                                 value={userId}
                                 onChange={onUserIdChanged}
+                              
                             >
                                 {users.map((user) => (
                                     <MenuItem key={user.id} value={user.id}>
@@ -177,13 +176,44 @@ const EditNoteForm = ({ note, users }) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                    </div>
-                    <div className="form__divider">
-                        <p className="form__created">Created:<br />{created}</p>
-                        <p className="form__updated">Updated:<br />{updated}</p>
-                    </div>
-                </div>
-            </form>
+                    
+                            <FormControlLabel
+                            control={
+                            <Checkbox 
+                                value='Work Complete'
+                                color='primary'
+                                onChange={onCompletedChanged}
+                                checked={completed}
+                            />}
+                                label="Work Complete"
+                                sx={{
+                                    // width:'50%'
+                                    marginLeft:'20px'
+                                }}
+                            />
+                        
+
+                          
+                        <p >Created:<br />{created}</p>
+                        <p >Updated:<br />{updated}</p>
+                        <Button
+                        component="button"
+                            onClick={onSaveNoteClicked}
+                            disabled={!canSave}
+                            label="Save"
+                            variant="contained"
+                            sx={{
+                                width:'40%',
+                                margin:'10px',
+                                padding:'20px'
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faSave} />
+                        </Button>
+                        {deleteButton}
+            </Box>
+            </Box>
+
             </Container>
         </>
     )

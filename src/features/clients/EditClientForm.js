@@ -10,6 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
+import { Box, Button, FormControlLabel, Typography } from "@mui/material"
 
 const EditClientForm = ({ client }) => {
 
@@ -87,36 +88,27 @@ const EditClientForm = ({ client }) => {
 
     const content = (
         <>
-            <CssBaseline />
 
-            <Container maxWidth="sm">
+            <Container maxWidth="xs">
+            <CssBaseline />
 
             {AlertErr}
 
-
-            <form className="form" onSubmit={e => e.preventDefault()}>
-                <div className="form__title-row">
-                    <h2>Edit User</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            onClick={onSaveClientClicked}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
-                        <button
-                            className="icon-button"
-                            title="Delete"
-                            onClick={onDeleteClientClicked}
-                        >
-                            <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
-                    </div>
-
-                </div>
-                <label className="form__label" htmlFor="username">
-                    Username: </label>
+            <Box
+            sx={{
+                marginTop:9,
+                display:'flex',
+                flexDirection:'column',
+                alignItems:'column'
+            }}
+            >
+                
+            <Box component='form'  onSubmit={e => e.preventDefault()}>
+                
+                    <Typography variant="h3">Edit User</Typography>
+                  
+                  
+            
 
                 <TextField
                     id="username"
@@ -125,14 +117,16 @@ const EditClientForm = ({ client }) => {
                     autoComplete="off"
                     value={username}
                     onChange={onUsernameChanged}
-                    label="Outlined"
+                    label="Username"
                     variant="outlined"
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                 />
 
 
-                <label className="form__label" htmlFor="location">
-                    Location:
-                </label>
+               
 
                 <TextField
                     id="location"
@@ -141,13 +135,15 @@ const EditClientForm = ({ client }) => {
                     autoComplete="off"
                     value={location}
                     onChange={onLocationChanged}
-                    label="Outlined"
+                    label="Location"
                     variant="outlined"
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                 />
 
-                <label htmlFor="Phone">
-                    Phone Number
-                </label>
+          
 
                 <TextField
                     id="Phone"
@@ -156,13 +152,15 @@ const EditClientForm = ({ client }) => {
                     autoComplete="off"
                     value={phonenumber}
                     onChange={onPhoneChanged}
-                    label="Outlined"
+                    label="Phone"
                     variant="outlined"
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                 />
 
-                <label className="form__label" htmlFor="Orders">
-                    ORDERS:</label>
-
+                
                 <TextField
                     id="Orders"
                     name="Orders"
@@ -170,28 +168,62 @@ const EditClientForm = ({ client }) => {
                     autoComplete="off"
                     value={orders}
                     onChange={onOrdersChanged}
-                    label="Outlined"
+                    label="Orders"
                     variant="outlined"
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                 />
 
-                <label className="form__label form__checkbox-container" htmlFor="client-active">
-                    ACTIVE:
+              
 
-
-                    <Checkbox
-                        {...label}
-                        defaultChecked
+                    <FormControlLabel
+                    control={<Checkbox
                         color="success"
                         value={active}
                         name="client-active"
                         id="client-active"
                         onChange={onActiveChanged}
+                        checked={active}
+                         />}
+                         label="Active"
+                        sx={{
+                            width:'100%'
+                        }}
                     />
-
-                </label>
+                  
+                <Button
+                component="button"
+                variant="contained"
+                sx={{
+                    widdth:'45%',
+                    margin:'5px',
+                    padding:'15px'
+                }}
+                            title="Save"
+                            onClick={onSaveClientClicked}
+                        >
+                            <FontAwesomeIcon icon={faSave} />
+                        </Button>
+                        <Button
+                        component="button"
+                        variant="contained"
+                        sx={{
+                            widdth:'45%',
+                            margin:'5px',
+                            padding:'15px'
+                        }}
+                            title="Delete"
+                            onClick={onDeleteClientClicked}
+                        >
+                            <FontAwesomeIcon icon={faTrashCan} />
+                        </Button>
+                 
 
         
-            </form>
+            </Box>
+            </Box>
             </Container>
 
         </>

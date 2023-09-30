@@ -8,6 +8,7 @@ import { ROLES } from "../../config/roles";
 import TextField from "@mui/material/TextField";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
+import { Box, Button, Typography } from "@mui/material";
 
 const USER_REGEX = /^[A-z]{3,20}$/;
 
@@ -49,80 +50,103 @@ const NewClientForm = ({client}) => {
   const content = (
 
     <>
-      <CssBaseline />
 
-      <Container maxWidth="sm">
-        <form className="form" onSubmit={(e) => e.preventDefault()}>
-          <div className="form__title-row">
-            <h2>Add Client</h2>
-            <div className="form__action-buttons">
-              <button
-                className="icon-button"
-                title="Save"
-                onClick={onSaveClientClicked}
-              >
-                <FontAwesomeIcon icon={faSave} />
-              </button>
-            </div>
-          </div>
-          <label className="form__label" htmlFor="username">
-            Username:{" "}
-          </label>
+      <Container maxWidth="xs">
+      <CssBaseline />
+        <Box
+        sx={{
+          marginTop:9,
+          display:'flex',
+          flexDirection:'column',
+          alignItems:'column',
+          width:'100%'
+        }}
+        >
+
+        <Box component='form'  onSubmit={(e) => e.preventDefault()}>
+            <Typography variant="h3" marginBottom='10px'>Add Client</Typography>
+          
+         
+   
 
           <TextField
+          sx={{
+            width:'45%',
+            margin:'5px'
+          }}
             id="username"
             name="username"
             type="text"
             autoComplete="off"
             value={username}
             onChange={onUsernameChanged}
-            label="Outlined"
+            label="Username"
             variant="outlined"
           />
 
-          <label className="form__label" htmlFor="location">
-            Location:
-          </label>
 
           <TextField
+          sx={{
+            width:'45%',
+            margin:'5px'
+          }}
             id="location"
             name="location"
             type="text"
             autoComplete="off"
             value={location}
             onChange={onLocationChanged}
-            label="Outlined"
+            label="Location"
             variant="outlined"
           />
 
-          <label htmlFor="Phone">Phone Number</label>
 
           <TextField
+          sx={{
+            width:'45%',
+            margin:'5px'
+          }}
             id="Phone"
             name="Phone"
             type="tel"
             autoComplete="off"
             value={phonenumber}
             onChange={onPhoneChanged}
-            label="Outlined"
+            label="Phone"
             variant="outlined"
           />
 
-          <label className="form__label" htmlFor="Orders">
-            ORDERS:
-          </label>
-
+         
           <TextField
+          sx={{
+            width:'45%',
+            margin:'5px'
+          }}
             id="Orders"
             name="Orders"
             type="text"
             autoComplete="off"
             value={orders}
             onChange={onOrdersChanged}
-            label="Outlined"
+            label="Orders"
             variant="outlined"
           />
-        </form>
+              <Button
+              component='button'
+              variant="contained"
+                title="Save"
+                onClick={onSaveClientClicked}
+                sx={{
+                  width:'95%',
+                  margin:'5px',
+                  padding:'15px'
+                }}
+              >
+                <FontAwesomeIcon icon={faSave} />
+              </Button>
+        </Box>
+        </Box>
+
       </Container>
     </>
   );

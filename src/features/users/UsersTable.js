@@ -109,7 +109,8 @@ export default function UsersTable() {
                                     
                                         </TableCell>
                                         <TableCell>
-                                            <Button                    onClick={handleEdit}
+                                            <Button
+                                            component="button"                    onClick={handleEdit}
                                         >
                                                             
                                         <FontAwesomeIcon icon={faPenToSquare} />

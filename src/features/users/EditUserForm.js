@@ -9,7 +9,7 @@ import { ROLES } from "../../config/roles"
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container, CssBaseline, MenuItem } from "@mui/material"
+import { Button, Container, CssBaseline, FormControlLabel, MenuItem, Typography } from "@mui/material"
 import Checkbox from '@mui/material/Checkbox';
 
 const USER_REGEX = /^[A-z]{3,20}$/
@@ -78,6 +78,7 @@ const EditUserForm = ({ user }) => {
             await updateUser({ id: user.id, username, password, roles, active,image })
         } else {
             await updateUser({ id: user.id, username, roles, active,image })
+            navigate('/dash/users')
         }
     }
 
@@ -125,39 +126,26 @@ const EditUserForm = ({ user }) => {
 
     const content = (
         <>
+        <Container maxWidth="xs">
         <CssBaseline />
-        <Container maxWidth="sm">
-            <p className={errClass}>{errContent}</p>
 
-            <form className="form" onSubmit={e => e.preventDefault()}>
-                <div className="form__title-row">
-                    <h2>Edit User</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            onClick={onSaveUserClicked}
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
-                        <button
-                            className="icon-button"
-                            title="Delete"
-                            onClick={onDeleteUserClicked}
-                        >
-                            <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
-                    </div>
-                </div>
+            {/* <p className={errClass}>{errContent}</p> */}
                 <Box
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    marginTop:9,
+                    display:'flex',
+                    flexDirection:'column',
+                    alignItems:'column',
+                    width:'100%'
                 }}
-                noValidate
-                autoComplete="off"
                 >
 
+            <Box component="form"  onSubmit={e => e.preventDefault()}>
+                    <Typography variant="h3" marginBottom='20px'>
+                        Edit User
+                    </Typography>
+                   
+               
               
                 <TextField
                     id="username"
@@ -167,6 +155,10 @@ const EditUserForm = ({ user }) => {
                     autoComplete="off"
                     value={username}
                     onChange={onUsernameChanged}
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                 />
 
                 <TextField
@@ -176,15 +168,11 @@ const EditUserForm = ({ user }) => {
                     type="password"
                     value={password}
                     onChange={onPasswordChanged}
-                />
-            </Box>
-            <Box
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
-                >
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
+                    />
                     <TextField 
                     type="file"
                     id="image"
@@ -193,62 +181,79 @@ const EditUserForm = ({ user }) => {
                     accept='image/*'
                     onChange={(e) => handleFileUpload(e)}
                     required
+                    sx={{
+                        width:'45%',
+                        margin:'5px'
+                    }}
                     />
                 
-                {/* <TextField
+                <TextField
                                 id="username"
                                 select
                                 label="Select"
-                                sx={{marginBottom:10}}
                                 value={roles[0]}
                                 onChange={onRolesChanged}
                                 multiple
+                                sx={{
+                                    width:'45%',
+                                    margin:'5px',
+                                    marginBottom:0
+                                }}
                             >
                                 {Object.values(ROLES).map((role) => (
                                     <MenuItem key={role} value={role}>
                                         {role}
                                     </MenuItem>
                                 ))}
-                            </TextField> */}
-                                <select
-                    id="roles"
-                    name="roles"
-                    className={`form__select ${validRolesClass}`}
-                    multiple={true}
-                    size="3"
-                    value={roles}
-                    onChange={onRolesChanged}
-                        >
-                    {
-                        Object.values(ROLES).map(role => {
-                            return (
-                                <option
-                                    key={role}
-                                    value={role}
-                    
-                                > {role}</option >
-                            )
-                        })
-                    }
-                    </select>
-            </Box>
+                            </TextField>
             
-            <label 
-                
-                htmlFor="user-active">
-                    ACTIVE:
-                    <Checkbox
-                        id="user-active"
-                        name="user-active"
-                        type="checkbox"
-                        checked={active}
-                        onChange={onActiveChanged}
-                    />
-                </label>
-    
+                    <FormControlLabel
+                    label="Active"
+                    sx={{
+                        width:'95%',
+                        margin:'5px',
+                        marginTop:'0px'
+                    }}
+                    control={<Checkbox value='true'                         
+                    checked={active}
+                    onChange={onActiveChanged}
+                    type="checkbox"
 
+                    />}
+                    />
+            
+         
+    
+                <Button
+                component="button"
+                            variant="contained"
+                            title="Save"
+                            onClick={onSaveUserClicked}
+                            disabled={!canSave}
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faSave} />
+                        </Button>
+                        <Button
+                                        component="button"
+
+                            variant="contained"
+                            title="Delete"
+                            onClick={onDeleteUserClicked}
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faTrashCan} />
+                        </Button>
               
-            </form>
+            </Box>
+            </Box>
+
             </Container>
         </>
     )

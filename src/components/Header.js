@@ -29,7 +29,7 @@ function Header(props) {
           </Link>
         </Typography>
      
-        <Button variant="outlined" size="small">
+        <Button component="button" variant="outlined" size="small">
           <Link href="login" sx={{textDecoration:'none'}}>
             Sign In
           </Link>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import {selectClientById} from './clientApiSlice'
-import { TableRow,TableCell } from '@mui/material';
+import { TableRow,TableCell, Button } from '@mui/material';
 
 
 const Client = ({clientId}) => {
@@ -22,12 +22,12 @@ const Client = ({clientId}) => {
             <TableCell>{client.username}</TableCell>
             <TableCell>{clientordersString}</TableCell>
             <TableCell>
-                <button
-                    className="icon-button table__button"
+                <Button
+                component='button'
                     onClick={handleEdit}
                 >
                     <FontAwesomeIcon icon={faPenToSquare} />
-                </button>
+                </Button>
             </TableCell>
         </TableRow>
         )

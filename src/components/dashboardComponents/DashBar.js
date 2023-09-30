@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -20,7 +20,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import useAuth from '../../hooks/useAuth';
 import {useSendLogoutMutation} from '../../features/auth/authApiSlice'
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons"
@@ -73,10 +73,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function DashBar() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -87,11 +86,18 @@ export default function DashBar() {
     isError,
     error
 }] = useSendLogoutMutation()
+const Navigate = useNavigate()
+
+const handelLogOut = () => {
+  sendLogout()
+  Navigate('/')
+}
 
   const logoutButton = (
     <ListItemButton
+    component="button"
         title="Logout"
-        onClick={sendLogout}
+        onClick={handelLogOut}
     >
       <ListItemIcon>
 
@@ -105,7 +111,7 @@ export default function DashBar() {
 )
 
   let content = (
-    <ThemeProvider theme={defaultTheme}>
+    <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -115,6 +121,7 @@ export default function DashBar() {
             }}
           >
             <IconButton
+            component="button"
               edge="start"
               color="inherit"
               aria-label="open drawer"
@@ -145,14 +152,15 @@ export default function DashBar() {
               alignItems: 'center',
               justifyContent: 'flex-end',
               px: [1],
+              textDecoration:'none'
             }}
           >
-            <IconButton onClick={toggleDrawer}>
+            <IconButton component="button" onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
+          <List component="nav" sx={{textDecoration:'none'}}>
             {mainListItems}
             {logoutButton}
             <Divider sx={{ my: 1 }} />
@@ -166,7 +174,7 @@ export default function DashBar() {
         </Drawer>
         <Outlet />
       </Box>
-    </ThemeProvider>
+    </>
   )
   return content
 }

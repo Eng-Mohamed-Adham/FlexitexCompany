@@ -7,6 +7,7 @@ import { selectNoteById } from './notesApiSlice'
 import { selectClientById } from '../clients/clientApiSlice'
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
+import { Button } from '@mui/material'
 
 const Note = ({ noteId }) => {
 
@@ -61,12 +62,12 @@ const Note = ({ noteId }) => {
                 <TableCell
                 align='right' 
                 >
-                        <button
-                        className="icon-button table__button"
+                        <Button
+                        component='button'
                         onClick={handleEdit}
                     >
                         <FontAwesomeIcon icon={faPenToSquare} />
-                    </button>
+                    </Button>
                 </TableCell>
             </TableRow>
         )

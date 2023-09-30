@@ -2,11 +2,12 @@ import { useState, useEffect } from "react"
 import { useUpdatePartMutation, useDeletePartMutation } from "./partsApiSlice"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { faSave, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 
 import useAuth from '../../hooks/useAuth';
+import { Box, Button, ButtonGroup, Container, CssBaseline, TextField, Typography } from '@mui/material';
 const EditNoteForm = ({ part }) => {
-    const {isManager,isAdmin} = useAuth()
+    const { isManager, isAdmin } = useAuth()
 
 
     const [updatePart, {
@@ -28,7 +29,7 @@ const EditNoteForm = ({ part }) => {
     const [desc, setDesc] = useState(part.desc)
     const [productiondate, setProductionDate] = useState(part.productiondate)
     const [lifespan, setLifeSpan] = useState(part.lifespan)
-    const [count,setCount] = useState(part.count)
+    const [count, setCount] = useState(part.count)
 
     useEffect(() => {
 
@@ -47,14 +48,14 @@ const EditNoteForm = ({ part }) => {
     const onProductionDateChanged = e => setProductionDate(e.target.value)
     const onLifeSpanChanged = e => setLifeSpan(e.target.value)
     const onCountChanged = e => setCount(e.target.value);
- 
 
-    const canSave = [name, desc, productiondate,lifespan].every(Boolean) && !isLoading
 
-   
+    const canSave = [name, desc, productiondate, lifespan].every(Boolean) && !isLoading
+
+
     const onSavePartClicked = async (e) => {
         if (canSave) {
-            await updatePart({ id: part.id, name, desc, productiondate, lifespan,count:part.count, })
+            await updatePart({ id: part.id, name, desc, productiondate, lifespan, count: part.count, })
         }
     }
 
@@ -65,7 +66,7 @@ const EditNoteForm = ({ part }) => {
     const created = new Date(part.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
     const updated = new Date(part.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
-    
+
     const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
     const validNameleClass = !name ? "form__input--incomplete" : ''
     const validDescClass = !desc ? "form__input--incomplete" : ''
@@ -75,97 +76,157 @@ const EditNoteForm = ({ part }) => {
     const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
 
     let deleteButton = null
-    if(isManager || isAdmin) {
+    if (isManager || isAdmin) {
         deleteButton = (
-            <button
-            className="icon-button"
-            title="Delete"
-            onClick={onDeletePartClicked} >
+            <Button
+            component="button"
+            variant="contained"
+            sx={{
+                width:'45%',
+                margin:'5px'
+
+            }}
+                label="Delete"
+                onClick={onDeletePartClicked} >
                 <FontAwesomeIcon icon={faTrashCan} />
-            </button>
+            </Button>
         )
     }
 
 
     const content = (
         <>
-            <p className={errClass}>{errContent}</p>
+            {/* <p className={errClass}>{errContent}</p> */}
+            <Container maxWidth='xs'>
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 9,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'column'
+                    }}
+                >
 
-            <form className="form" onSubmit={e => e.preventDefault()}>
-                <div className="form__title-row">
-                    <h2>Edit Part #{part.name}</h2>
-                    <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            onClick={onSavePartClicked}
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
+
+                    <Box component='form' onSubmit={e => e.preventDefault()}
+                  
+                    >
+                        <Typography variant="h3" marginBottom="20px">
+
+                            <FontAwesomeIcon icon={faPenToSquare} size="xl" style={{ color: "#1e72bd", }} />
+                            {part.name}
+                        </Typography>
+
+
+                        <TextField
+                            margin="normal"
+                            id="PartTitle"
+                            name="title"
+                            type="text"
+                            autoComplete="off"
+                            value={name}
+                            onChange={onNameChanged}
+                            label="Title"
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+                            }}
+                        />
+
+
+
+
+                        <TextField
+                            id="Part-text"
+                            name="text"
+                            value={productiondate}
+                            onChange={onProductionDateChanged}
+                            margin='normal'
+                            label="ProductionDate"
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
+                        />
+              
+                        <TextField
+                            id="Part-LifeSpan"
+                            name="text"
+                            value={lifespan}
+                            onChange={onLifeSpanChanged}
+                            label="LifeSpan"
+                            margin='normal'
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
+                        />
+                
+                        <TextField
+                            type="number"
+                            id="Count"
+                            name="text"
+                            value={count}
+                            onChange={onCountChanged}
+                            margin="normal"
+                            label="Count"
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
+
+                        />
+
+                        <TextField
+                            margin="normal"
+                            label="Desc"
+                            id="Part-Desc"
+                            name="Desc"
+                            type="text"
+                            autoComplete="off"
+                            value={desc}
+                            onChange={onDescChanged}
+                            multiline
+                            rows={4}
+                            variant="standard"
+                            sx={{
+                                width:'95%',
+                                margin:'5px'
+
+                            }}
+
+                        />
+                        <Typography variant="h6" >
+                            Created:<br />{created}
+                            Updated:<br />{updated}
+                        </Typography>
+                                
+                    </Box>
+                    <ButtonGroup>
+                    <Button
+                    component="button"
+                        variant="contained"
+                        sx={{
+                            width:'45%',
+                            margin:'5px',
+                            padding:'15px'
+
+                        }}
+                        title="Save"
+                        onClick={onSavePartClicked}
+                        disabled={!canSave}
+                    >
+                        <FontAwesomeIcon icon={faSave} />
+                    </Button>
                     {deleteButton}
-                    </div>
-                </div>
-                <label className="form__label" htmlFor="note-title">
-                    Name:</label>
-                <input
-                    className={`form__input ${validNameleClass}`}
-                    id="note-title"
-                    name="title"
-                    type="text"
-                    autoComplete="off"
-                    value={name}
-                    onChange={onNameChanged}
-                />
-
-                <label className="form__label" htmlFor="note-title">
-                    Desc:</label>
-                    <textarea
-                        className={`form__input ${validDescClass}`}
-                        id="note-title"
-                        name="title"
-                        type="text"
-                        autoComplete="off"
-                        value={desc}
-                        onChange={onDescChanged}
-                    />
-                <label className="form__label" htmlFor="note-text">
-                    productiondate:</label>
-                <input
-                    className={`form__input form__input--text ${validProductionDateClass}`}
-                    id="note-text"
-                    name="text"
-                    value={productiondate}
-                    onChange={onProductionDateChanged}
-                />
-                <label className="form__label" htmlFor="note-text">
-                    LifeSpan:</label>
-                <input
-                    className={`form__input form__input--text ${validLifeSpanClass}`}
-                    id="note-text"
-                    name="text"
-                    value={lifespan}
-                    onChange={onLifeSpanChanged}
-                />
-                <label className="form__label" htmlFor="note-text">
-                    Count:</label>
-                <input
-                    type="number"
-                    className={`form__input form__input--text ${validLifeSpanClass}`}
-                    id="note-text"
-                    name="text"
-                    value={count}
-                    onChange={onCountChanged}
-                />
-    
-        
-                <div className="form__row">
-                    <div className="form__divider">
-                        <p className="form__created">Created:<br />{created}</p>
-                        <p className="form__updated">Updated:<br />{updated}</p>
-                    </div>
-                </div>
-            </form>
+                    </ButtonGroup>
+                    </Box>
+                  
+            </Container>
         </>
     )
 

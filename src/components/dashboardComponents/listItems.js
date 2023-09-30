@@ -8,58 +8,68 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAtom, faHouse, faLaptopMedical, faNoteSticky, faNotesMedical, faUser, faUserPlus, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
+import { makeStyles } from '@material-ui/core/styles';
 
 
+
+
+
+export const useStyles = makeStyles(() => ({
+Link:{
+  textDecoration:'none !important',
+  color:'#1e72bd'
+}
+}))
 
 
 export const mainListItems = (
   <React.Fragment>
-    <Link to="/dash">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}} to="/dash">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faHouse} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Dashboard" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/notes">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/notes">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faNoteSticky} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Orders" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/notes/new">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/notes/new">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faNotesMedical} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Add Order" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Add Order" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/parts">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/parts">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faAtom} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Parts" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Parts" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/clients">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/clients">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faUser} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Clients" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Clients" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/clients/new">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/clients/new">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faUserPlus} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Add Client" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Add Client" />
     </ListItemButton>
     </Link>
 
@@ -72,31 +82,32 @@ export const secondaryListItems = (
     <ListSubheader component="div" inset>
       Saved reports
     </ListSubheader>
-    <Link className="link" to="/dash/parts/new">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/parts/new">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faLaptopMedical} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Add Part" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Add Part" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/users">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/users">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faUserTie} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Users" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Users" />
     </ListItemButton>
     </Link>
-    <Link className="link" to="/dash/users/new">
+    <Link  style={{textDecoration:'none ',color:'#1e72bd'}}  to="/dash/users/new">
     <ListItemButton>
       <ListItemIcon>
       <FontAwesomeIcon icon={faUserPlus} style={{color: "#1e72bd",}} />
       </ListItemIcon>
-      <ListItemText primary="Add User" />
+      <ListItemText  style={{textDecoration:'none ',color:'#1e72bd'}} primary="Add User" />
     </ListItemButton>
     </Link>
   
   </React.Fragment>
 );
+
 

@@ -6,7 +6,7 @@ import { faSave } from "@fortawesome/free-solid-svg-icons"
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container, CssBaseline } from "@mui/material"
+import { Button, Container, CssBaseline, Typography } from "@mui/material"
 
 const NewPartForm = () => {
 
@@ -63,30 +63,22 @@ const NewPartForm = () => {
 
     const content = (
         <>
-            {/* <p className={errClass}>{error?.data?.message}</p> */}
+            <Container maxWidth="xs">
             <CssBaseline />
-            <Container maxWidth="sm">
-                <form className="form" onSubmit={onSavePartClicked}>
-                    <div className="form__title-row">
-                        <h2>New Part</h2>
-                        <div className="form__action-buttons">
-                            <button
-                                className="icon-button"
-                                title="Save"
-                                disabled={!canSave}
-                            >
-                                <FontAwesomeIcon icon={faSave} />
-                            </button>
-                        </div>
-                    </div>
-                    <Box
-                        sx={{
-                            '& > :not(style)': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                        >
-            
+                <Box
+                sx={{
+                    marginTop:9,
+                    display:'flex',
+                    flexDirection:'column',
+                    alignItems:'column'
+                }}
+                >
+
+                <Box component='form' onSubmit={onSavePartClicked}>
+                        <Typography variant="h3">
+                            New Part</Typography>
+                    
+                
                     <TextField
                         variant="outlined"
                         label="Id"
@@ -96,6 +88,11 @@ const NewPartForm = () => {
                         autoComplete="off"
                         value={id}
                         onChange={onIdChanged}
+                        sx={{
+                            width:'45%',
+                            margin:'5px'
+
+                        }}
                     />
             
                     <TextField
@@ -107,17 +104,13 @@ const NewPartForm = () => {
                         autoComplete="off"
                         value={name}
                         onChange={onNameChanged}
-                    />
-                    </Box>
-                
-                        <Box
                         sx={{
-                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                            width:'45%',
+                            margin:'5px'
+
                         }}
-                        noValidate
-                        autoComplete="off"
-                        >
-                    <TextField
+                    />
+                      <TextField
                         variant="outlined"
                         id="production"
                         label="production"
@@ -127,6 +120,11 @@ const NewPartForm = () => {
                         autoComplete="off"
                         value={productiondate}
                         onChange={onProductionDateChanged}
+                        sx={{
+                            width:'45%',
+                            margin:'5px'
+
+                        }}
                     />
                 
                     <TextField
@@ -138,6 +136,11 @@ const NewPartForm = () => {
                         autoComplete="off"
                         value={lifespan}
                         onChange={onLifeSpanChanged}
+                        sx={{
+                            width:'45%',
+                            margin:'5px'
+
+                        }}
                     />
             
                     <TextField
@@ -148,6 +151,11 @@ const NewPartForm = () => {
                         name="text"
                         value={count}
                         onChange={onCountChanged}
+                        sx={{
+                            width:'45%',
+                            margin:'5px'
+
+                        }}
                     />
 
                     <TextField
@@ -159,11 +167,32 @@ const NewPartForm = () => {
                         rows={4}
                         value={desc}
                         onChange={onDescChanged}
+                        sx={{
+                            width:'45%',
+                            margin:'5px'
+
+                        }}
                     />
-                    </Box>
+                    <Button 
+                    component="button"
+                                variant="contained"
+                                label="Save"
+                                disabled={!canSave}
+                                sx={{
+                                    width:'90%',
+                                    padding:'20px'
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faSave} />
+                    </Button>
+                </Box>
                 
+                      
+                  
+                   
                     
-                </form>
+                </Box>
+
             </Container>
         </>
     )

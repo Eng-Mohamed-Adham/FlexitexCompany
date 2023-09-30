@@ -5,16 +5,13 @@ import Container from '@mui/material/Container';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
 import MainFeaturedPost from './MainFeaturedPost';
 import FeaturedPost from './FeaturedPost';
 import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import post1 from '../blog-post.1.md';
-import post2 from '../blog-post.2.md';
-import post3 from '../blog-post.3.md';
+
 import mainFeaturedPoastImg from './imgs/cro4.jpg'
 import FeaturedPostImg1 from './imgs/cro2.jpg'
 import FeaturedPostImg2 from './imgs/cro4.avif'
@@ -57,7 +54,6 @@ const featuredPosts = [
   },
 ];
 
-const posts = [post1, post2, post3];
 
 const sidebar = {
   title: 'Quality',
@@ -82,11 +78,12 @@ const sidebar = {
 };
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 export default function HomePage() {
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <>
+    
       <CssBaseline />
       <Container maxWidth="lg">
         <Header title="Golden Tech Associates" sections={sections} />
@@ -98,7 +95,7 @@ export default function HomePage() {
             ))}
           </Grid>
           <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Main title="Golden Tech Associates" posts={posts} />
+            <Main title="Golden Tech Associates"  />
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}
@@ -113,6 +110,7 @@ export default function HomePage() {
         description="Golden Tech Associates is the Best Choice &#x1F499;
         "
       />
-    </ThemeProvider>
+          </>
+
   );
 }

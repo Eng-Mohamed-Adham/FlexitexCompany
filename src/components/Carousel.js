@@ -71,6 +71,8 @@ const Slider = () => {
               <div className="name">{item.name}</div>
               <div className="des">{item.desc}</div>
               <Button
+                              component="button"
+
               variant="contained"
               >
                 See more

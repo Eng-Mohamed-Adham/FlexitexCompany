@@ -21,7 +21,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
@@ -38,7 +37,6 @@ function Copyright(props) {
     );
 }
 
-const defaultTheme = createTheme();
 
 const Login = () => {
     const userRef = useRef()
@@ -93,7 +91,7 @@ const Login = () => {
     if (isLoading) return <p>Loading...</p>
 
     const content = (
-        <ThemeProvider theme={defaultTheme}>
+        <>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -148,6 +146,7 @@ const Login = () => {
                         />
 
                         <Button
+                        component="button"
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -173,7 +172,7 @@ const Login = () => {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
-        </ThemeProvider>
+        </>
 
     )
 

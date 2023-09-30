@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Markdown from './Markdown';
 
-function Main(props) {
-  const {title } = props;
+function Main({title}) {
 
 const posts = [
   `# Our Vision
@@ -67,9 +66,6 @@ We are on a mission to reduce electronic waste. By choosing **Golden Tech Associ
   );
 }
 
-Main.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  title: PropTypes.string.isRequired,
-};
+
 
 export default Main;

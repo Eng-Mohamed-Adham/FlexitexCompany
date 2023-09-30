@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAddNewNoteMutation } from "./notesApiSlice"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave } from "@fortawesome/free-solid-svg-icons"
+import { faSave,faNotesMedical } from "@fortawesome/free-solid-svg-icons"
 import TextField from '@mui/material/TextField';
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
+import { Avatar } from "@mui/material"
 
 
 const NewNoteForm = ({ users, clients }) => {
@@ -94,49 +95,58 @@ const NewNoteForm = ({ users, clients }) => {
     const alertText = ismatch ? "This Client is Found" : "This Client is Not Found"
     const content = (
         <>
-            <CssBaseline />
-            <Container maxWidth="sm">
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+            <Box
+                sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                }}
+            >
+        
+            <Avatar>
+            <FontAwesomeIcon icon={faNotesMedical} style={{color: "#1e72bd",}} />
+            </Avatar>
 
-
-                <form className="form" onSubmit={onSaveNoteClicked}>
-                    <div className="form__title-row">
-                        <h2>New Note</h2>
-                        <div className="form__action-buttons">
-                            <button
-                                className="icon-button"
-                                title="Save"
-                                disabled={!canSave}
-                            >
-                                <FontAwesomeIcon icon={faSave} />
-                            </button>
-                        </div>
-                    </div>
-
+                <Box component="form" onSubmit={onSaveNoteClicked}>
+              
                     {
                         <Alert severity={alerseverity}>{alertText}</Alert>
                     }
-                    <label htmlFor="client">
-                        Enter Client Name to add note for him:
-                    </label>
+            
 
                     <TextField
+                        margin="normal"
                         id="client"
-                        label="Client Name"
+                        label="Enter Client Name to add note for him:
+                        "
                         autoComplete="off"
                         type="text"
-                        variant="outlined"
                         value={clientName}
                         onChange={onClientNameChanged}
+                        fullWidth
                     />
-                    <Button variant="contained" onClick={checkUsername}>Check Client</Button>
-                    <Box
+                    <Button
+                    component="button"
+                    variant="contained"
+                    onClick={checkUsername}
+                    fullWidth
+                    sx={{ mt: 3, mb: 2 }}
+
+                    >
+                        Check Client
+                    </Button>
+                    {/* <Box
                         sx={{
                             '& .MuiTextField-root': { m: 1, width: '25ch' },
                         }}
                         autoComplete="off"
-                        >
+                        > */}
                             
                             <TextField
+                                margin="normal"
                                 id="title"
                                 name="title"
                                 label="Title"
@@ -145,12 +155,14 @@ const NewNoteForm = ({ users, clients }) => {
                                 autoComplete="off"
                                 value={title}
                                 onChange={onTitleChanged}
+
                             />
 
                     
                         
 
                             <TextField
+                                margin="normal"
                                 id="username"
                                 select
                                 label="Select"
@@ -164,10 +176,9 @@ const NewNoteForm = ({ users, clients }) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                        </Box>
+                        {/* </Box> */}
 
-                    <label className="form__label" htmlFor="standard-multiline-static">
-                        Text:</label>
+                
 
                     <TextField
                         id="standard-multiline-static"
@@ -178,8 +189,24 @@ const NewNoteForm = ({ users, clients }) => {
                         name="text"
                         value={text}
                         onChange={onTextChanged}
+                        fullWidth
                     />
-                </form>
+                   
+                            <Button
+                            component="button"
+                                title="Save"
+                                disabled={!canSave}
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+
+                            >
+                                <FontAwesomeIcon icon={faSave} />
+                            </Button>
+                  
+                </Box>
+                </Box>
             </Container>
         </>
     )

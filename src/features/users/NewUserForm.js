@@ -9,7 +9,7 @@ import { ROLES } from "../../config/roles"
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container, CssBaseline, MenuItem } from "@mui/material"
+import { Button, Container, CssBaseline, MenuItem, Typography } from "@mui/material"
 import Checkbox from '@mui/material/Checkbox';
 
 
@@ -95,11 +95,11 @@ const NewUserForm = () => {
 
     const options = Object.values(ROLES).map(role => {
         return (
-            <option
+            <MenuItem
                 key={role}
                 value={role}
 
-            > {role}</option >
+            > {role}</MenuItem >
         )
     })
 
@@ -112,28 +112,20 @@ const NewUserForm = () => {
     const content = (
         <>
             {/* <p className={errClass}>{error?.data?.message}</p> */}
+            <Container maxWidth="xs">
             <CssBaseline />
-            <Container maxWidth="sm">
-                <form className="form" onSubmit={onSaveUserClicked}>
-                    <div className="form__title-row">
-                        <h2>New User</h2>
-                        <div className="form__action-buttons">
-                            <button
-                                className="icon-button"
-                                title="Save"
-                                disabled={!canSave}
-                            >
-                                <FontAwesomeIcon icon={faSave} />
-                            </button>
-                        </div>
-                    </div>
-                    <Box
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
+                <Box 
+                sx={{
+                    marginTop:9,
+                    display:'flex',
+                    flexDirection:'column',
+                    alignItems:'column'
+                }}
+                >
+
+                <Box component='form' onSubmit={onSaveUserClicked}>
+                        <Typography variant="h3" >New User</Typography >
+                   
                         <TextField
                             id="username"
                             name="username"
@@ -142,6 +134,11 @@ const NewUserForm = () => {
                             autoComplete="off"
                             value={username}
                             onChange={onUsernameChanged}
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
                         />
                         <TextField
                             id="password"
@@ -150,15 +147,13 @@ const NewUserForm = () => {
                             type="password"
                             value={password}
                             onChange={onPasswordChanged}
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
                         />
-                    </Box>
-                    <Box
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
+                    
                         <TextField
                             type="file"
                             id="image"
@@ -167,38 +162,49 @@ const NewUserForm = () => {
                             accept='image/*'
                             onChange={(e) => handleFileUpload(e)}
                             required
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
                         />
-                        {/* <TextField
-                            id="username"
-                            select
-                            label="Select"
-                            sx={{ marginBottom: 10 }}
-                            // value={roles[1]}
-                            onChange={onRolesChanged}
-                            multiple
-                        >
-                            {Object.values(ROLES).map((role) => (
-                                <MenuItem key={role} value={role}>
-                                    {role}
-                                </MenuItem>
-                            ))}
-                        </TextField> */}
-                    <select
-                    id="roles"
-                    name="roles"
-                    className={`form__select ${validRolesClass}`}
-                    multiple={true}
-                    size="3"
-                    value={roles}
-                    onChange={onRolesChanged}
-                        >
-                        {options}
-                    </select>
-                    </Box>
+         
+                    <TextField
+                                margin="normal"
+                                id="username"
+                                select
+                                label="Select"
+                                value={roles}
+                                onChange={onRolesChanged}
+                                sx={{
+                                    width:'45%',
+                                    margin:'5px',
+                                    marginBottom:10
+    
+                                }}
+                            >
+                                {options}
+                            </TextField>
+                            <Button
+                            component="button"
+                                variant="contained"
+                                label="Save"
+                                disabled={!canSave}
+                                sx={{
+                                    padding:'15px',
+                                    display:'block',
+                                    margin:'auto',
+                                    width:'95%'
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faSave} />
+                            </Button>
 
 
 
-                </form>
+                </Box>
+                </Box>
+
             </Container>
         </>
     )

@@ -126,6 +126,7 @@ const  SearchInput= () => {
         />
 
         <Button
+        component="button"
         variant="contained"
         onClick={CheckPart}
         sx={{
