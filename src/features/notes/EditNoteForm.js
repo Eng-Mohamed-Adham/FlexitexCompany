@@ -97,16 +97,12 @@ const EditNoteForm = ({ note, users }) => {
     const onDeleteNoteClicked = async () => {
         if (client) {
             if (client.id === note.clientId) {
-                if (client.orders.length === 0) {
                     await deleteNote({ id: note.id })
-                    await deleteClient({ id: client.id })
-                }
-                else {
-                    await deleteNote({ id: note.id })
+                  
 
                 }
 
-            }
+            
 
         }
     }
