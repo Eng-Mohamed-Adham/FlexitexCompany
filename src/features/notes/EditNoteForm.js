@@ -80,17 +80,15 @@ const EditNoteForm = ({ note, users }) => {
 
     const onSaveNoteClicked = async (e) => {
         e.preventDefault()
-        const checkCount = matchPart.count - count
-        const calcBuy = matchPart.buy + count
         if (canSave) {
-            if( checkCount < 0) {
+            if( !canSave < 0) {
                 return(
                     <Alert severity="error">count of part is not available in Storage</Alert>
                 )
             }else{
             await updateNote({ id: note.id, user: userId, title, text, completed, clientId: note.clientId, part,count })
 
-            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:calcBuy })
+            
             }
         }
     }
@@ -98,8 +96,11 @@ const EditNoteForm = ({ note, users }) => {
     const onDeleteNoteClicked = async () => {
         if (client) {
             if (client.id === note.clientId) {
+                const calcCount = matchPart.count + count
+                const calcBuy = matchPart.buy - count
+
                     await deleteNote({ id: note.id })
-                  
+                    await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan,count:calcCount,buy:calcBuy })
 
                 }
 

@@ -48,6 +48,8 @@ const NewNoteForm = ({ users, clients }) => {
     const [partId,setPartId] = useState('')
     const [count,setCount] = useState(1)
 
+    let NewNumberCount = parseInt(count)
+
     const steps = ['Check', 'Submit', ];
 
     function getStepContent(step) {
@@ -127,9 +129,12 @@ const NewNoteForm = ({ users, clients }) => {
     const canSave = [title, text, userId,part].every(Boolean) && !isLoading
     const onSaveNoteClicked = async (e) => {
         e.preventDefault()
-        const newCount = matchPart.count - count
-        const calcBuy = matchPart.buy + count
+            console.log(typeof(NewNumberCount))
+
+        const newCount = matchPart.count - NewNumberCount
+        const calcBuy = matchPart.buy + NewNumberCount
         if (canSave) {
+
             
             if( newCount < 0) {
                 return(
@@ -139,7 +144,7 @@ const NewNoteForm = ({ users, clients }) => {
 
             await addNewNote({ user: userId, title, text, clientId,part,count })
           
-            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:calcBuy })
+            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: newCount ,buy:calcBuy })
 
             setActiveStep(activeStep + 1);
 
