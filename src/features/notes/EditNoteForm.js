@@ -81,6 +81,7 @@ const EditNoteForm = ({ note, users }) => {
     const onSaveNoteClicked = async (e) => {
         e.preventDefault()
         const checkCount = matchPart.count - count
+        const calcBuy = matchPart.buy + count
         if (canSave) {
             if( checkCount < 0) {
                 return(
@@ -89,7 +90,7 @@ const EditNoteForm = ({ note, users }) => {
             }else{
             await updateNote({ id: note.id, user: userId, title, text, completed, clientId: note.clientId, part,count })
 
-            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:matchPart.buy + count })
+            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:calcBuy })
             }
         }
     }
