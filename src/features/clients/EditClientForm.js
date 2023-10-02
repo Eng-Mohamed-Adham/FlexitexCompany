@@ -31,7 +31,6 @@ const EditClientForm = ({ client }) => {
 
     const [username, setUsername] = useState(client.username)
     const [location, setLocation] = useState(client.location)
-    const [orders, setOrders] = useState(client.orders)
     const [active, setActive] = useState(client.active)
     const [phonenumber, setPhoneNumber] = useState(client.phonenumber)
 
@@ -43,7 +42,6 @@ const EditClientForm = ({ client }) => {
         if (isSuccess || isDelSuccess) {
             setUsername('')
             setLocation('')
-            setOrders([])
             navigate('/dash/clients')
         }
 
@@ -52,14 +50,13 @@ const EditClientForm = ({ client }) => {
     const onUsernameChanged = e => setUsername(e.target.value)
     const onLocationChanged = e => setLocation(e.target.value)
     const onPhoneChanged = e => setPhoneNumber(e.target.value)
-    const onOrdersChanged = e => setOrders(e.target.value)
     const onActiveChanged = () => setActive(pre => !pre)
 
 
-    let canSave = [username,location,phonenumber,orders].every(Boolean) && !isLoading
+    let canSave = [username,location,phonenumber].every(Boolean) && !isLoading
     const onSaveClientClicked = async (e) => {
         if (canSave) {
-            await updateClient({ id: client.id, username,location, active, phonenumber,orders })
+            await updateClient({ id: client.id, username,location, active, phonenumber })
             navigate('/dash/clients')
 
 
@@ -161,20 +158,7 @@ const EditClientForm = ({ client }) => {
                 />
 
                 
-                <TextField
-                    id="Orders"
-                    name="Orders"
-                    type="text"
-                    autoComplete="off"
-                    value={orders}
-                    onChange={onOrdersChanged}
-                    label="Orders"
-                    variant="outlined"
-                    sx={{
-                        width:'45%',
-                        margin:'5px'
-                    }}
-                />
+           
 
               
 

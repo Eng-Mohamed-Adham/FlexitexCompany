@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useUpdateNoteMutation, useDeleteNoteMutation } from "./notesApiSlice"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave, faTrashCan,faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import { faSave, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import { useSelector } from "react-redux"
 import { useDeleteClientMutation } from "../clients/clientApiSlice"
 import { selectClientById } from "../clients/clientApiSlice"
@@ -10,12 +10,13 @@ import useAuth from '../../hooks/useAuth';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { Button, Checkbox, Container, CssBaseline, FormControlLabel, MenuItem, Typography } from "@mui/material"
+import { Alert, Button, Checkbox, Container, CssBaseline, FormControlLabel, MenuItem, Typography } from "@mui/material"
+import { selectAllParts,useUpdatePartMutation } from '../parts/partsApiSlice'
 
 
 
 const EditNoteForm = ({ note, users }) => {
-    const {isManager,isAdmin} = useAuth()
+    const { isManager, isAdmin } = useAuth()
 
 
     const [updateNote, {
@@ -25,14 +26,21 @@ const EditNoteForm = ({ note, users }) => {
         error
     }] = useUpdateNoteMutation()
 
+    const Parts = useSelector(selectAllParts)
+
     const [deleteNote, {
         isSuccess: isDelSuccess,
         isError: isDelError,
         error: delerror
     }] = useDeleteNoteMutation()
+    const [updatePart, {
+        Loading,
+        Success,
+        Error
+    }] = useUpdatePartMutation()
 
-    const [deleteClient,{
-        isSuccess:isDelSuccessClient,
+    const [deleteClient, {
+        isSuccess: isDelSuccessClient,
 
     }] = useDeleteClientMutation()
 
@@ -45,6 +53,10 @@ const EditNoteForm = ({ note, users }) => {
     const [text, setText] = useState(note.text)
     const [completed, setCompleted] = useState(note.completed)
     const [userId, setUserId] = useState(note.user)
+    const [part, setPart] = useState(note.part)
+    const [count,setCount] = useState(note.count)
+
+    const matchPart = Parts.find(p => p.name === part);
 
     useEffect(() => {
 
@@ -61,158 +73,174 @@ const EditNoteForm = ({ note, users }) => {
     const onTextChanged = e => setText(e.target.value)
     const onCompletedChanged = e => setCompleted(prev => !prev)
     const onUserIdChanged = e => setUserId(e.target.value)
+ 
 
-    const canSave = [title, text, userId].every(Boolean) && !isLoading
+
+    const canSave = [title, text, userId, part].every(Boolean) && !isLoading
 
     const onSaveNoteClicked = async (e) => {
         e.preventDefault()
+        const checkCount = matchPart.count - count
         if (canSave) {
-            await updateNote({ id: note.id, user: userId, title, text, completed,clientId:note.clientId })
+            if( checkCount < 0) {
+                return(
+                    <Alert severity="error">count of part is not available in Storage</Alert>
+                )
+            }else{
+            await updateNote({ id: note.id, user: userId, title, text, completed, clientId: note.clientId, part,count })
+
+            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:matchPart.buy + count })
+            }
         }
     }
 
     const onDeleteNoteClicked = async () => {
-        if(client){
-                if(client.id === note.clientId){
-                    if(client.orders.length === 0){
-                        await deleteNote({ id: note.id })
-                        await deleteClient({ id: client.id })
-                    }
-                    else{
-                        await deleteNote({ id: note.id })
-
-                    }
+        if (client) {
+            if (client.id === note.clientId) {
+                if (client.orders.length === 0) {
+                    await deleteNote({ id: note.id })
+                    await deleteClient({ id: client.id })
+                }
+                else {
+                    await deleteNote({ id: note.id })
 
                 }
 
+            }
+
         }
     }
-
+  
     const created = new Date(note.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
     const updated = new Date(note.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
- 
 
-   
+
+
 
     let deleteButton = null
-    if(isManager || isAdmin) {
+    if (isManager || isAdmin) {
         deleteButton = (
             <Button
-            component="button"
-            variant="contained"
-            label="Delete"
-            onClick={onDeleteNoteClicked}
-            sx={{
-                width:'40%',
-                margin:'10px',
-                padding:'20px'
-            }}
-             >
+                component="button"
+                variant="contained"
+                label="Delete"
+                onClick={onDeleteNoteClicked}
+                sx={{
+                    width: '40%',
+                    margin: '10px',
+                    padding: '20px'
+                }}
+            >
                 <FontAwesomeIcon icon={faTrashCan} />
             </Button>
         )
     }
-
+  
 
     const content = (
         <>
             <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-            sx={{
-                marginTop:8,
-                display:'flex',
-                flexDirection:'column',
-                alignItems:'center'
-            }}
-            >
-
-            <Box component='form'  onSubmit={e => e.preventDefault()}>
-                <Typography variant="h3" marginTop='20px'>
-
-                <FontAwesomeIcon icon={faPenToSquare} style={{color: "#1e72bd",}} /> Order
-                </Typography>
-
-
-               
-                <TextField
-                    margin="normal"
-                    id="note-title"
-                    name="title"
-                    type="text"
-                    label="Title"
-                    autoComplete="off"
-                    value={title}
-                    onChange={onTitleChanged}
+                <CssBaseline />
+                <Box
                     sx={{
-                        width:'50%'
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
-                />
+                >
 
-                <TextField
-                    margin="normal"
-                    id="note-text"
-                    name="text"
-                    value={text}
-                    onChange={onTextChanged}
-                    label="Text"
-                    sx={{
-                        width:'50%'
-                    }}
-                />
-                  <TextField
-                                id="username"
-                                select
-                                label="Assined To:"
-                                sx={{marginBottom:10,width:'50%'}}
-                                value={userId}
-                                onChange={onUserIdChanged}
-                              
-                            >
-                                {users.map((user) => (
-                                    <MenuItem key={user.id} value={user.id}>
-                                        {user.username}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                    <Box component='form' onSubmit={e => e.preventDefault()}>
+                        <Typography variant="h3" marginTop='20px'>
+
+                            <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#1e72bd", }} /> Order
+                        </Typography>
+            
+
+
+                        <TextField
+                            margin="normal"
+                            id="note-title"
+                            name="title"
+                            type="text"
+                            label="Title"
+                            autoComplete="off"
+                            value={title}
+                            onChange={onTitleChanged}
+                            sx={{
+                                width: '50%'
+                            }}
+                        />
+
+                        <TextField
+                            margin="normal"
+                            id="note-text"
+                            name="text"
+                            value={text}
+                            onChange={onTextChanged}
+                            label="Text"
+                            sx={{
+                                width: '50%'
+                            }}
+                        />
                     
-                            <FormControlLabel
-                            control={
-                            <Checkbox 
-                                value='Work Complete'
-                                color='primary'
-                                onChange={onCompletedChanged}
-                                checked={completed}
-                            />}
-                                label="Work Complete"
-                                sx={{
-                                    // width:'50%'
-                                    marginLeft:'20px'
-                                }}
-                            />
+                        <TextField
+                            id="username"
+                            select
+                            label="Assined To:"
+                            sx={{ width: '50%' }}
+                            value={userId}
+                            onChange={onUserIdChanged}
+
+                        >
+                            {users.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>
+                                    {user.username}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        
                         
 
-                          
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    value='Work Complete'
+                                    color='primary'
+                                    onChange={onCompletedChanged}
+                                    checked={completed}
+                                />}
+                            label="Work Complete"
+                            sx={{
+                                // width:'50%'
+                                marginLeft: '20px'
+                            }}
+                        />
+
+
+
                         <p >Created:<br />{created}</p>
                         <p >Updated:<br />{updated}</p>
+                        <p>Count Of Part:<br/>{count}</p>
+                        <p>Name Of Part<br/>{part}</p>
                         <Button
-                        component="button"
+                            component="button"
                             onClick={onSaveNoteClicked}
                             disabled={!canSave}
                             label="Save"
                             variant="contained"
                             sx={{
-                                width:'40%',
-                                margin:'10px',
-                                padding:'20px'
+                                width: '40%',
+                                margin: '10px',
+                                padding: '20px'
                             }}
                         >
                             <FontAwesomeIcon icon={faSave} />
                         </Button>
                         {deleteButton}
-            </Box>
-            </Box>
+                    </Box>
+                </Box>
 
             </Container>
         </>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAddNewNoteMutation } from "./notesApiSlice"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,8 +10,11 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import { Avatar } from "@mui/material"
-
+import { Avatar, Step, StepLabel, Stepper, Typography } from "@mui/material"
+import {selectAllParts,useUpdatePartMutation} from '../parts/partsApiSlice'
+import { useSelector } from 'react-redux'
+import StepOne from "./StepOneForm"
+import StepTwoForm from "./StepTwoForm"
 
 const NewNoteForm = ({ users, clients }) => {
 
@@ -22,7 +25,13 @@ const NewNoteForm = ({ users, clients }) => {
         isError,
     }] = useAddNewNoteMutation()
 
+    const [updatePart, {
+        Loading,
+        Success,
+        Error
+    }] = useUpdatePartMutation()
 
+    const Parts = useSelector(selectAllParts)
 
 
     const navigate = useNavigate()
@@ -34,22 +43,68 @@ const NewNoteForm = ({ users, clients }) => {
     const [userId, setUserId] = useState(users[0].id)
     const [clientId, setClientId] = useState('')
     const [ismatch, setIsMatch] = useState(false)
+    const [part,setPart] = useState('')
+    const [isPart,setIsPart] = useState(false)
+    const [partId,setPartId] = useState('')
+    const [count,setCount] = useState(1)
+
+    const steps = ['Check', 'Submit', ];
+
+    function getStepContent(step) {
+        switch (step) {
+          case 0:
+            return <StepOne
+            clients={clients}
+            ismatch={ismatch}
+            isPart={isPart}
+            clientName={clientName}
+            onClientNameChanged={onClientNameChanged}
+            part={part}
+            onPartChanged={onPartChanged}
+            checkStep1={checkStepOne}
+            />;
+          case 1:
+            return <StepTwoForm
+            title={title}
+            onTitleChanged={onTitleChanged}
+            userId={userId}
+            onUserIdChanged={onUserIdChanged}
+            users={users}
+            count={count}
+            onCountChange={onCountChange}
+            text={text}
+            onTextChanged={onTextChanged}
+             />;
+         
+          default:
+            throw new Error('Unknown step');
+        }
+      }
 
 
-    let AlertText
+    const matchingClient = clients.find((client) => client.username === clientName);
 
-    const checkUsername = () => {
-        const matchingClient = clients.find((client) => client.username === clientName);
-        if (matchingClient) {
+    const matchPart = Parts.find(p => p.name === part);
+
+
+    const checkStepOne = () => {
+
+        if (matchingClient && matchPart) {
             setClientId(matchingClient._id)
             setValidClient(true)
             setIsMatch(true)
+            setPartId(matchPart.id)
+            setIsPart(true)
+            setActiveStep(activeStep + 1);
+
 
         } else {
             setIsMatch(false)
+            setIsPart(false)
+
 
         }
-
+      
     }
 
     useEffect(() => {
@@ -66,33 +121,43 @@ const NewNoteForm = ({ users, clients }) => {
     const onTextChanged = e => setText(e.target.value)
     const onUserIdChanged = e => setUserId(e.target.value)
     const onClientNameChanged = e => setClientName(e.target.value)
+    const onPartChanged = e => setPart(e.target.value)
+    const onCountChange = e => setCount(e.target.value)
 
-
-    const canSave = [title, text, userId].every(Boolean) && !isLoading
-
+    const canSave = [title, text, userId,part].every(Boolean) && !isLoading
     const onSaveNoteClicked = async (e) => {
         e.preventDefault()
+        const newCount = matchPart.count - count
+        const calcBuy = matchPart.buy + count
         if (canSave) {
+            
+            if( newCount < 0) {
+                return(
+                    <Alert severity="error">count of part is not available in Storage</Alert>
+                )
+            }else{
 
-            await addNewNote({ user: userId, title, text, clientId })
+            await addNewNote({ user: userId, title, text, clientId,part,count })
+          
+            await updatePart({ id: matchPart.id, name:matchPart.name, desc:matchPart.desc, productiondate: matchPart.productiondate, lifespan:matchPart.lifespan, count: matchPart.count - count ,buy:calcBuy })
 
+            setActiveStep(activeStep + 1);
+
+
+            }
         }
     }
+    const [activeStep, setActiveStep] = useState(0);
 
-    const options = users.map(user => {
-        return (
-            <option
-                key={user.id}
-                value={user.id}
-            > {user.username}</option >
-        )
-    })
 
-    const errClass = isError ? "errmsg" : "offscreen"
-    const validTitleClass = !title ? "form__input--incomplete" : ''
-    const validTextClass = !text ? "form__input--incomplete" : ''
-    const alerseverity = ismatch ? "success" : "error"
-    const alertText = ismatch ? "This Client is Found" : "This Client is Not Found"
+  
+    const handleBack = () => {
+      setActiveStep(activeStep - 1);
+    };
+ 
+
+
+    
     const content = (
         <>
         <Container component="main" maxWidth="xs">
@@ -106,105 +171,54 @@ const NewNoteForm = ({ users, clients }) => {
                 }}
             >
         
-            <Avatar>
-            <FontAwesomeIcon icon={faNotesMedical} style={{color: "#1e72bd",}} />
-            </Avatar>
+        
+
+                <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+                            {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                            ))}
+                </Stepper>
 
                 <Box component="form" onSubmit={onSaveNoteClicked}>
-              
-                    {
-                        <Alert severity={alerseverity}>{alertText}</Alert>
-                    }
-            
 
-                    <TextField
-                        margin="normal"
-                        id="client"
-                        label="Enter Client Name to add note for him:
-                        "
-                        autoComplete="off"
-                        type="text"
-                        value={clientName}
-                        onChange={onClientNameChanged}
-                        fullWidth
-                    />
-                    <Button
-                    component="button"
-                    variant="contained"
-                    onClick={checkUsername}
-                    fullWidth
-                    sx={{ mt: 3, mb: 2 }}
+                {activeStep === steps.length ? (
+            <React.Fragment>
+              <Typography variant="h5" gutterBottom>
+                Thank you for your order.
+              </Typography>
+              <Typography variant="subtitle1">
+                Your order number is . We have emailed your order
+                confirmation, and will send you an update when your order has
+                shipped.
+              </Typography>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {getStepContent(activeStep)}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {activeStep !== 0 && (
+                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                    Back
+                  </Button>
+                )}
+                {activeStep === steps.length - 1 &&
+                <Button
+                  variant="contained"
+                  onClick={onSaveNoteClicked}
+                  disabled={!canSave}
+                  type="submit"
 
-                    >
-                        Check Client
-                    </Button>
-                    {/* <Box
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        }}
-                        autoComplete="off"
-                        > */}
-                            
-                            <TextField
-                                margin="normal"
-                                id="title"
-                                name="title"
-                                label="Title"
-                                type="text"
-                                variant="outlined"
-                                autoComplete="off"
-                                value={title}
-                                onChange={onTitleChanged}
-
-                            />
-
-                    
-                        
-
-                            <TextField
-                                margin="normal"
-                                id="username"
-                                select
-                                label="Select"
-                                sx={{marginBottom:10}}
-                                value={userId}
-                                onChange={onUserIdChanged}
-                            >
-                                {users.map((user) => (
-                                    <MenuItem key={user.id} value={user.id}>
-                                        {user.username}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        {/* </Box> */}
-
+                  sx={{ mt: 3, ml: 1 }}
+                >
+                  Confirm 
+                </Button>
+                }
+                </Box>
+            </React.Fragment>
+            )}
                 
-
-                    <TextField
-                        id="standard-multiline-static"
-                        label="Description"
-                        multiline
-                        rows={4}
-                        variant="standard"
-                        name="text"
-                        value={text}
-                        onChange={onTextChanged}
-                        fullWidth
-                    />
-                   
-                            <Button
-                            component="button"
-                                title="Save"
-                                disabled={!canSave}
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-
-                            >
-                                <FontAwesomeIcon icon={faSave} />
-                            </Button>
-                  
                 </Box>
                 </Box>
             </Container>

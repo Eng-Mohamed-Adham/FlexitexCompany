@@ -20,14 +20,12 @@ const NewClientForm = ({client}) => {
 
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
-  const [orders, setOrders] = useState([""]);
   const [phonenumber, setPhone] = useState("");
 
   useEffect(() => {
     if (isSuccess) {
       setUsername("");
       setLocation("");
-      setOrders([]);
       navigate("/dash/notes/new");
     }
   }, [isSuccess, navigate]);
@@ -35,15 +33,14 @@ const NewClientForm = ({client}) => {
   const onUsernameChanged = (e) => setUsername(e.target.value);
   const onLocationChanged = (e) => setLocation(e.target.value);
   const onPhoneChanged = (e) => setPhone(e.target.value);
-  const onOrdersChanged = (e) => setOrders(e.target.value);
 
   const canSave =
-    [orders, username, location, phonenumber].every(Boolean) && !isLoading;
+    [ username, location, phonenumber].every(Boolean) && !isLoading;
 
   const onSaveClientClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
-      await addNewClient({ username, orders, location, phonenumber });
+      await addNewClient({ username,  location, phonenumber });
     }
   };
 
@@ -117,20 +114,7 @@ const NewClientForm = ({client}) => {
           />
 
          
-          <TextField
-          sx={{
-            width:'45%',
-            margin:'5px'
-          }}
-            id="Orders"
-            name="Orders"
-            type="text"
-            autoComplete="off"
-            value={orders}
-            onChange={onOrdersChanged}
-            label="Orders"
-            variant="outlined"
-          />
+  
               <Button
               component='button'
               variant="contained"

@@ -25,6 +25,7 @@ const NewPartForm = () => {
     const [lifespan,setLifeSpan] = useState(''
     )
     const [count,setCount] = useState(0)
+    const [buy,setBuy] = useState(0)
 
     useEffect(() => {
         if (isSuccess) {
@@ -44,6 +45,7 @@ const NewPartForm = () => {
     const onProductionDateChanged = e => setProductionDate(e.target.value)
     const onLifeSpanChanged = e => setLifeSpan(e.target.value)
     const onCountChanged = e => setCount(e.target.value);
+    const onBuyChanged = e => setBuy(e.target.value)
 
 
     const canSave = [id,name, desc, productiondate,count].every(Boolean) && !isLoading
@@ -51,7 +53,7 @@ const NewPartForm = () => {
     const onSavePartClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
-            await addNewPart({ id,name,desc,productiondate,lifespan,count })
+            await addNewPart({ id,name,desc,productiondate,lifespan,count,buy })
         }
     }
 
@@ -158,6 +160,22 @@ const NewPartForm = () => {
                         }}
                     />
 
+                        <TextField
+                            type="number"
+                            id="Buy"
+                            name="text"
+                            value={buy}
+                            onChange={onBuyChanged}
+                            margin="normal"
+                            label="Buy"
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
+
+                        />
+
                     <TextField
                         variant="standard"
                         id="desc"
@@ -168,7 +186,7 @@ const NewPartForm = () => {
                         value={desc}
                         onChange={onDescChanged}
                         sx={{
-                            width:'45%',
+                            width:'95%',
                             margin:'5px'
 
                         }}
@@ -178,6 +196,7 @@ const NewPartForm = () => {
                                 variant="contained"
                                 label="Save"
                                 disabled={!canSave}
+                                type='submit'
                                 sx={{
                                     width:'90%',
                                     padding:'20px'

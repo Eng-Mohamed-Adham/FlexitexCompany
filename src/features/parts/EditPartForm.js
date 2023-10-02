@@ -30,6 +30,7 @@ const EditNoteForm = ({ part }) => {
     const [productiondate, setProductionDate] = useState(part.productiondate)
     const [lifespan, setLifeSpan] = useState(part.lifespan)
     const [count, setCount] = useState(part.count)
+    const [buy,setBuy] = useState(part.buy)
 
     useEffect(() => {
 
@@ -48,14 +49,15 @@ const EditNoteForm = ({ part }) => {
     const onProductionDateChanged = e => setProductionDate(e.target.value)
     const onLifeSpanChanged = e => setLifeSpan(e.target.value)
     const onCountChanged = e => setCount(e.target.value);
+    const onBuyChanged = e => setBuy(e.target.value)
 
 
-    const canSave = [name, desc, productiondate, lifespan].every(Boolean) && !isLoading
+    const canSave = [name, desc, productiondate, lifespan,count,buy].every(Boolean) && !isLoading
 
 
     const onSavePartClicked = async (e) => {
         if (canSave) {
-            await updatePart({ id: part.id, name, desc, productiondate, lifespan, count: part.count, })
+            await updatePart({ id: part.id, name, desc, productiondate, lifespan, count:count,buy:buy })
         }
     }
 
@@ -67,13 +69,7 @@ const EditNoteForm = ({ part }) => {
     const updated = new Date(part.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
 
-    const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
-    const validNameleClass = !name ? "form__input--incomplete" : ''
-    const validDescClass = !desc ? "form__input--incomplete" : ''
-    const validProductionDateClass = !productiondate ? "form__input--incomplete" : ''
-    const validLifeSpanClass = !lifespan ? "form__input--incomplete" : ''
-
-    const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
+   
 
     let deleteButton = null
     if (isManager || isAdmin) {
@@ -181,6 +177,21 @@ const EditNoteForm = ({ part }) => {
 
                         />
 
+                        <TextField
+                            type="number"
+                            id="Buy"
+                            name="text"
+                            value={buy}
+                            onChange={onBuyChanged}
+                            margin="normal"
+                            label="Buy"
+                            sx={{
+                                width:'45%',
+                                margin:'5px'
+
+                            }}
+
+                        />
                         <TextField
                             margin="normal"
                             label="Desc"
